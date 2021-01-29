@@ -1,7 +1,6 @@
 <?php 
 
 class lrGet{
-	public $deneme;
 	private $wpdb;
 	public $branchID = 0;
 	private $wholebranch;
