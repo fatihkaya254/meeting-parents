@@ -1,5 +1,5 @@
 <?php 
-//burasi github ile değiştirildi
+
 class lrGet{
 	private $wpdb;
 	public $branchID = 0;
