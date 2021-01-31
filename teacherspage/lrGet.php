@@ -67,6 +67,56 @@ class lrGet{
 					return $rI;
 	}
 
+	function homeworkStatus($url, $styleClass, $vwid, $homeworkStatus, $content){
+
+
+		$content .= '<div class="'.$styleClass.' '.$vwid.'b">';
+		$content .= '<label>Önceki Derste Verilen Ödev</label><br>';
+		$content .= '<label class="container">Tam Yaptı';
+
+		if ($homeworkStatus == tam) {
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" checked="checked" name="radiobtn'.$vwid.'" id="tam'.$vwid.'" value="tam">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" name="radiobtn'.$vwid.'" id="tam'.$vwid.'" value="tam">';
+		}		
+
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Eksik/Özensiz';
+
+		if ($homeworkStatus == eksik) {
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" checked="checked" id="eksik'.$vwid.'" name="radiobtn'.$vwid.'" value="eksik">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" name="radiobtn'.$vwid.'" id="eksik'.$vwid.'" value="eksik">';
+		}
+
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Yapmadı';
+
+		if ($homeworkStatus == yok) {
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" checked="checked" id="yok'.$vwid.'" name="radiobtn'.$vwid.'" value="yok">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" name="radiobtn'.$vwid.'" id="yok'.$vwid.'" value="yok">';
+		}
+
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Verilmemişti';
+
+		if ($homeworkStatus == verilmedi) {
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" checked="checked" id="verilmedi'.$vwid.'" name="radiobtn'.$vwid.'" value="verilmedi">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" name="radiobtn'.$vwid.'" id="verilmedi'.$vwid.'" value="verilmedi">';
+		}		
+
+		$content .= '<span class="checkmark"></span>
+		</label>
+		</div>';
+
+		return $content;
+	}
+
 }
 
 ?>

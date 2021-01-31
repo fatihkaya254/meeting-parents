@@ -64,9 +64,9 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
 				if ($studentID != 'G') {
 					
 
-					$rI = $getir->getRI($teacherid, $studentID,'2021.01.10', $rI);
+					$rI = $getir->getRI($teacherid, $studentID,'2021.01.10', $rI); //ders bilgileri alınır
 
-					$exhomework = $getir->getExHomework('2021.01.09');
+					$exhomework = $getir->getExHomework('2021.01.09'); // bir önceki ödev bilgisi alınır
 
 
 					$processLR .= '<li class="'.$rI['cssClasslist'].'">Step 1</li>';
@@ -91,49 +91,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
 					<input type="text" onfocusout="setLessonStatus(\''.$setLessonStatusURL.'\',\''.$we['vw_id'].'\')" name="lessonStatus'.$we['vw_id'].'" id="lessonStatus'.$we['vw_id'].'" placeholder="Örn. Permütasyon ve Kombinasyon" value = "'.$rI['lessonTopic'].'">
 					</div>';
 
-					$content .= '<div class="'.$rI['cssClassL'].' '.$we['vw_id'].'b">';
-					$content .= '<label>Önceki Derste Verilen Ödev</label><br>';
-					$content .= '<label class="container">Tam Yaptı';
-
-					if ($rI['homeworkStatus'] == tam) {
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" checked="checked" name="radiobtn'.$we['vw_id'].'" id="tam'.$we['vw_id'].'" value="tam">';
-					}else{
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" name="radiobtn'.$we['vw_id'].'" id="tam'.$we['vw_id'].'" value="tam">';
-					}		
-
-					$content .= '<span class="checkmark"></span>';
-					$content .= '</label>';
-					$content .= '<label class="container">Eksik/Özensiz';
-
-					if ($rI['homeworkStatus'] == eksik) {
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" checked="checked" id="eksik'.$we['vw_id'].'" name="radiobtn'.$we['vw_id'].'" value="eksik">';
-					}else{
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" name="radiobtn'.$we['vw_id'].'" id="eksik'.$we['vw_id'].'" value="eksik">';
-					}
-
-					$content .= '<span class="checkmark"></span>';
-					$content .= '</label>';
-					$content .= '<label class="container">Yapmadı';
-
-					if ($rI['homeworkStatus'] == yok) {
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" checked="checked" id="yok'.$we['vw_id'].'" name="radiobtn'.$we['vw_id'].'" value="yok">';
-					}else{
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" name="radiobtn'.$we['vw_id'].'" id="yok'.$we['vw_id'].'" value="yok">';
-					}
-
-					$content .= '<span class="checkmark"></span>';
-					$content .= '</label>';
-					$content .= '<label class="container">Verilmemişti';
-
-					if ($rI['homeworkStatus'] == verilmedi) {
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" checked="checked" id="verilmedi'.$we['vw_id'].'" name="radiobtn'.$we['vw_id'].'" value="verilmedi">';
-					}else{
-						$content .= '<input type="radio" onclick="radioFunction(\''.$radioSetURL.'\',\''.$we['vw_id'].'\')" name="radiobtn'.$we['vw_id'].'" id="verilmedi'.$we['vw_id'].'" value="verilmedi">';
-					}		
-
-					$content .= '<span class="checkmark"></span>
-					</label>
-					</div>';
+					$content .= $getir->homeworkStatus($radioSetURL, $rI['cssClassL'], $we['vw_id'], $rI['homeworkStatus'], '');
 
 					$content .= '<div class="'.$rI['cssClassL'].' '.$we['vw_id'].'b">
 					<label>Bir Sonraki Ödev</label>
