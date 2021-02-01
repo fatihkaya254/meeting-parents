@@ -5,7 +5,7 @@ class lrGet{
 	public $branchID = 0;
 	private $wholebranch;
 	public $groupStudents = array(0,0,0,0,0,0);
-	public $exHomework = 'Önceki ödev bilgisi yok.';
+	public $exHomework = 'Önceki ödev bilgisi yok';
 	public function __construct()
 	{
 		global $wpdb;
@@ -35,10 +35,10 @@ class lrGet{
 		return $this->groupStudents;
 	}
 
-	function getExHomework ($tarih){
+	function getExHomework ($tarih, $teacherid, $studentID){
 		global $wpdb;
-		$this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE teacher_id = '$teacherid' AND student_id = '$studentID' AND date_info < '2021.01.09' ORDER BY date_info ASC LIMIT 0,1;", ARRAY_A);
-		foreach ($wholerecords as $wr){ 
+		$this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE teacher_id = '$teacherid' AND student_id = '$studentID' AND date_info < '$tarih' ORDER BY date_info DESC LIMIT 0,1;", ARRAY_A);
+		foreach ($this->wholerecords as $wr){ 
 			$this->exHomework = $wr['next_homework'];
 		}
 		return $this->exHomework;
@@ -65,6 +65,35 @@ class lrGet{
 						}	
 					}
 					return $rI;
+	}
+
+	function getGRI ($teacherid, $studentID, $dateInfo, $gRI){
+		global $wpdb;
+	
+		for ($i=0; $i < 6 ; $i++) { 
+		
+			$this->wholerecords  = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE teacher_id = '$teacherid' AND student_id = '$studentID[$i]' AND date_info = '$dateInfo' ORDER BY date_info ASC LIMIT 0,1;", ARRAY_A);
+			foreach ($this->wholerecords  as $tr){ 
+				$gRI['cssClassL'] = 'lesson_cont la';
+				$gRI['cssClassR'] = 'lesson_cont ra';
+				$gRI['cssClasslist']  = 'active';
+							
+				$gRI['recordID'][$i] = $tr['lr_id'];
+							
+				if ($tr['lesson_status'] != "0") {
+					$gRI['lessonTopic'][$i]= $tr['lesson_status'];
+				}
+				if ($tr['next_homework'] != "0") {
+					$gRI['nextHomework'][$i]= $tr['next_homework'];
+				}
+				if ($tr['homework_status'] != "0") {
+					$gRI['homeworkStatus'][$i] = $tr['homework_status'];
+				}	
+			}
+		}
+		
+		return $gRI;
+		
 	}
 
 	function homeworkStatus($url, $styleClass, $vwid, $homeworkStatus, $content){
