@@ -13,7 +13,8 @@ $hours = array("11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","
 if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
 
    
-
+	$exhomework = '';
+	$smsText = '';
     global $wpdb;
     $processLR = '';
     $content = '';
@@ -38,6 +39,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
         $gRI['lessonTopic'] = array(0 => "", 1 => "", 2 => "", 3 => "", 4 => "", 5 => "");
         $gRI['nextHomework'] = array(0 => "", 1 => "", 2 => "", 3 => "", 4 => "", 5 => "");
         $gRI['homeworkStatus'] = array(0 => "", 1 => "", 2 => "", 3 => "", 4 => "", 5 => "");
+        $gRI['names'] = array(0 => "", 1 => "", 2 => "", 3 => "", 4 => "", 5 => "");
 
         $branchID = 0;
         $vwname = $we['vw_name'];
@@ -74,9 +76,10 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
                 $content .= '<div class="lesson_cont">
 
 					<div class="' . $rI['cssClassR'] . ' ' . $we['vw_id'] . 'a">
-					<h1>'.$hours[$hangisaat].'</h1>
-					<h2>' . $studentName . '</h2>
+					<h1 id="hour' . $we['vw_id'] . '">'.$hours[$hangisaat].'</h1>
+					<h2 id="name' . $we['vw_id'] . '">' . $studentName . '</h2>
 					<p>Bir Önceki Ödev: ' . $exhomework . '</p>
+					<p id="sms' . $we['vw_id'] . '"></p>
 					<input type="submit" id="gola" name="gonder" value="Başlat" onclick="startLesson(\'' . $url . '\',\'' . $we['vw_id'] . '\')">
 					<input type="hidden" id="branch' . $we['vw_id'] . '" name="branch' . $we['vw_id'] . '" value="' . $branchID . '">
 					<input type="hidden" id="stuid' . $we['vw_id'] . '" name="stuid' . $we['vw_id'] . '" value="' . $studentID . '">
@@ -89,50 +92,69 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
 
 					<div id="a" class="' . $rI['cssClassL'] . ' ' . $we['vw_id'] . 'b">
 					<label>İşlenen Konu </label>
-					<input type="text" onfocusout="setLessonStatus(\'' . $setLessonStatusURL . '\',\'' . $we['vw_id'] . '\')" name="lessonStatus' . $we['vw_id'] . '" id="lessonStatus' . $we['vw_id'] . '" placeholder="Örn. Permütasyon ve Kombinasyon" value = "' . $rI['lessonTopic'] . '">
+					<input type="text" onfocusout="setLessonStatus(\'' . $setLessonStatusURL . '\',\'' . $we['vw_id'] . '\',\' \')" name="lessonStatus' . $we['vw_id'] . '" id="lessonStatus' . $we['vw_id'] . '" placeholder="Örn. Permütasyon ve Kombinasyon" value = "' . $rI['lessonTopic'] . '">
 					</div>';
 
                 $content .= $getir->homeworkStatus($radioSetURL, $rI['cssClassL'], $we['vw_id'], $rI['homeworkStatus'], ''); //ödev chechboxları
 
                 $content .= '<div class="' . $rI['cssClassL'] . ' ' . $we['vw_id'] . 'b">
 					<label>Bir Sonraki Ödev</label>
-					<input type="text" name="nextHomework' . $we['vw_id'] . '" id="nextHomework' . $we['vw_id'] . '" onfocusout="setNextHomework(\'' . $setNextHomeworkURL . '\',\'' . $we['vw_id'] . '\')" placeholder="Örn. Karekök 7. Ünite Tamamen Bitecek" value = "' . $rI['nextHomework'] . '">
+					<input type="text" name="nextHomework' . $we['vw_id'] . '" id="nextHomework' . $we['vw_id'] . '" onfocusout="setNextHomework(\'' . $setNextHomeworkURL . '\',\'' . $we['vw_id'] . '\',\' \')" placeholder="Örn. Karekök 7. Ünite Tamamen Bitecek" value = "' . $rI['nextHomework'] . '">
 					</div>
 					</div>';
             } else if ($studentID == 'G') {
 
-                $groupStudents = $getir->getGroupStudents($studentName);
+				$groupStudents = $getir->getGroupStudents($studentName);
+				for ($gsg=0; $gsg < 6; $gsg++) { 
+					$gRI['names'][$gsg] = $getir->getStudentNames($groupStudents[$gsg]);
+				}
                 $gRI = $getir->getGRI($teacherid, $groupStudents, '2021.01.10', $gRI); //ders bilgileri alınır
                 $url = $startGroupLessonURL; //ders başlatma urlini grup dersi başlatma urli ile değiştir
                 $processLR .= '<li class="' . $gRI['cssClasslist'] . '">'.$hours[$hangisaat].'</li>';
-                $content .= '<div class="lesson_cont">
-					<div class="' . $gRI['cssClassR'] . ' ' . $we['vw_id'] . 'a">
-					<h1>'.$hours[$hangisaat].'</h1>
-					<h2>' . $studentName . '</h2>
-					<p>Bir Önceki Ödev: ' . $exhomework . '</p>
-					<input type="submit" id="gola" name="gonder" onclick="startLesson(\'' . $url . '\',\'' . $we['vw_id'] . '\')">
-					<input type="hidden" id="branch' . $we['vw_id'] . '" name="branch' . $we['vw_id'] . '" value="' . $branchID . '">
-					<input type="hidden" id="stuid' . $we['vw_id'] . '" name="stuid' . $we['vw_id'] . '" value="' . $studentID . '">
-					<input type="hidden" id="teaid' . $we['vw_id'] . '" name="teaid' . $we['vw_id'] . '" value="' . $teacherid . '">
-					<input type="hidden" id="hangisaat' . $we['vw_id'] . '" name="hangisaat' . $we['vw_id'] . '" value="' . $hangidersar[0] . '">
-					<input type="hidden" id="recordID' . $we['vw_id'] . '" name="hangisaat' . $we['vw_id'] . '" value="' . $rI['recordID'] . '">
-					<input type="hidden" id="studentName' . $we['vw_id'] . '" name="studentName' . $we['vw_id'] . '" value="' . $studentName . '">
+                $content .= '<div class="lesson_cont">';
+				$content .=	'<div class="' . $gRI['cssClassR'] . ' ' . $we['vw_id'] . 'a">';
+				$content .=	'<h1>'.$hours[$hangisaat].'</h1>';
+				$content .=	'<h2>' . $studentName . '</h2>';
+				$content .=	'<p>Bir Önceki Ödev: ' . $exhomework . '</p>';
+				$content .=	'<input type="submit" id="gola" name="gonder" onclick="startLesson(\'' . $url . '\',\'' . $we['vw_id'] . '\')">';
+				$content .=	'<input type="hidden" id="branch' . $we['vw_id'] . '" name="branch' . $we['vw_id'] . '" value="' . $branchID . '">';
+				$content .=	'<input type="hidden" id="stuid' . $we['vw_id'] . '" name="stuid' . $we['vw_id'] . '" value="' . $studentID . '">';
+				$content .=	'<input type="hidden" id="teaid' . $we['vw_id'] . '" name="teaid' . $we['vw_id'] . '" value="' . $teacherid . '">';
+				$content .=	'<input type="hidden" id="hangisaat' . $we['vw_id'] . '" name="hangisaat' . $we['vw_id'] . '" value="' . $hangidersar[0] . '">';
+				
+				for ($ret=0; $ret < 6; $ret++) { 
+					if($groupStudents[$ret]==0) continue;
+					$content .=	'<input type="hidden" id="recordID' . $we['vw_id'] . $ret. '" name="recordID' . $we['vw_id'] . $ret. '" value="' . $gRI['recordID'][$ret] . '">';
+				}
+				
+				$content .=	'<input type="hidden" id="studentName' . $we['vw_id'] . '" name="studentName' . $we['vw_id'] . '" value="' . $studentName . '">';
 
-					</div>
+				$content .=	'</div>';
 
-					<div id="a" class="' . $gRI['cssClassL'] . ' ' . $we['vw_id'] . 'b">
-					<label>İşlenen Konu </label>
-					<input type="text" onfocusout="setLessonStatus(\'' . $setLessonStatusURL . '\',\'' . $we['vw_id'] . '\')" name="lessonStatus' . $we['vw_id'] . '" id="lessonStatus' . $we['vw_id'] . '" placeholder="Örn. Permütasyon ve Kombinasyon" value = "' . $rI['lessonTopic'] . '">
-					</div>';
+				$content .=	'<div id="a" class="' . $gRI['cssClassL'] . ' ' . $we['vw_id'] . 'b">';
+				$content .=	'<label>İşlenen Konu </label>';
+				$content .=	'<input type="text" onfocusout="';
+				for ($sett=0; $sett < 6; $sett++) { 
+					$content .= 'setLessonStatus(\'' . $setLessonStatusURL . '\',\'' . $we['vw_id'] . '\',\'' . $sett.'\');';
+				}
+				$content .= '" name="lessonStatus' . $we['vw_id'] . '" id="lessonStatus' . $we['vw_id'] . '" placeholder="Örn. Permütasyon ve Kombinasyon" value = "' . $rI['lessonTopic'] . '">';
+				$content .=	'</div>';
 
-                $content .= '<div class="' . $gRI['cssClassL'] . ' ' . $we['vw_id'] . 'b">
-					<label>Bir Sonraki Ödev</label>
-					<input type="text" name="nextHomework' . $we['vw_id'] . '" id="nextHomework' . $we['vw_id'] . '" onfocusout="setNextHomework(\'' . $setNextHomeworkURL . '\',\'' . $we['vw_id'] . '\')" placeholder="Örn. Karekök 7. Ünite Tamamen Bitecek" value = "' . $rI['nextHomework'] . '">
-					';
+                $content .= '<div class="' . $gRI['cssClassL'] . ' ' . $we['vw_id'] . 'b">';
+				$content .=	'<label>Bir Sonraki Ödev</label>';
+				$content .=	'<input type="text" name="nextHomework' . $we['vw_id'] . '" id="nextHomework' . $we['vw_id'] . '" onfocusout="';
+
+				for ($seth=0; $seth < 6 ; $seth++) { 
+					$content .= 'setNextHomework(\'' . $setNextHomeworkURL . '\',\'' . $we['vw_id'].'\',\'' . $seth.'\');';
+				}
+
+				$content .= '" placeholder="Örn. Karekök 7. Ünite Tamamen Bitecek" value = "' . $rI['nextHomework'] . '">';
+				$content .=	'</div>';
                 for ($i = 0; $i < 6; $i++) {
-                    $content .= $getir->homeworkStatus($radioSetURL, $gRI['cssClassL'], $we['vw_id'], $gRI['homeworkStatus'][$i], ''); //ödev chechboxları
+					if($groupStudents[$i]==0) continue;
+                    $content .= $getir->homeworkStatusG($radioSetURL, $gRI['cssClassL'], $we['vw_id'], $gRI['homeworkStatus'][$i], '',$gRI, $i); //ödev chechboxları
                 }
-                $content .= '</div></div>';
+                $content .= '</div>';
 
             }
         }

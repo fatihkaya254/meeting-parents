@@ -1,203 +1,214 @@
-<style type="text/css">
- 
-@charset "UTF-8";
-
-
-
+<style type="text/css">@charset "UTF-8";
 .lesson_cont h1 {
-	font-size: 22px;
-	color: #1B3BF2;
+    font-size: 22px;
+    color: #1B3BF2;
 }
 
 .lesson_cont h1 {
-	font-size: 22px;
-	color: #1B3BF2;
+    font-size: 22px;
+    color: #1B3BF2;
 }
 
 .lesson_cont h2 {
-	font-size: 18px;
-	color: #1B3BF2;
+    font-size: 18px;
+    color: #1B3BF2;
 }
 
 .lesson_cont p {
-	font-size: 12px;
-	color: #1B3BF2;
+    font-size: 12px;
+    color: #1B3BF2;
 }
 
-
 .lesson_cont input[type=text] {
-	width: 100%;
-	height: 30px;
-	background-color: #FEC8CF;
-	box-sizing: border-box;
-	font-size: 14px;
-	border-bottom: 1px solid #FEC8CF;
-	transition: border-bottom 0.1s ease-in-out;
+    width: 100%;
+    height: 30px;
+    background-color: #FEC8CF;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-bottom: 1px solid #FEC8CF;
+    transition: border-bottom 0.1s ease-in-out;
 }
 
 .lesson_cont input[type=submit] {
-
-	background-color: #1B3BF2;
-	font-size: 14px;
-	height: 40px;
-	border-radius: 0.3em;
-
+    background-color: #1B3BF2;
+    font-size: 14px;
+    height: 40px;
+    border-radius: 0.3em;
 }
-
-
 
 .lesson_cont input[type=text]:focus {
-	border-bottom: 0px solid #000;
-	background-color: #ECECF5;
-	width: 100%;
+    border-bottom: 0px solid #000;
+    background-color: #ECECF5;
+    width: 100%;
 }
-.lesson_cont{
-	float: left;
-	width: 90%;
-	background-color: #F29BAB;
-	border-radius: 2em;
-	padding: 1%;
-	margin-bottom: 15px;
+
+.lesson_cont {
+    float: left;
+    width: 90%;
+    background-color: #F29BAB;
+    border-radius: 2em;
+    padding: 1%;
+    margin-bottom: 15px;
 }
+
 .lesson_cont .l {
-	float: left;
-	width: 64%;
-	/*background-color: #FF506B;*/
-	padding: 2%;
-	display: none;
-	margin: 0px;
+    float: right;
+    width: 64%;
+    /*background-color: #FF506B;*/
+    padding: 2%;
+    display: none;
+    margin: 0px;
 }
-.lesson_cont .la{
-	float: left;
-	width: 64%;
-	/*background-color: #FF506B;*/
-	padding: 2%;
-	display: block;
-	margin: 0px;
+
+.lesson_cont .la {
+    float: right;
+    width: 64%;
+    /*background-color: #FF506B;*/
+    padding: 2%;
+    display: block;
+    margin: 0px;
 }
 
 .lesson_cont .r {
-	float: left;
-	width: 98%;
-	background-color:#F2D0D7;
-	margin: 0px;
-	text-align: center;
-	min-height: 200px;
+    float: left;
+    width: 98%;
+    background-color: #F2D0D7;
+    margin: 0px;
+    text-align: center;
+    min-height: 200px;
 }
 
 .lesson_cont .ra {
-	float: left;
-	width: 30%;
-	min-height: 200px;
-	background-color: #F2D0D7;
-	margin: 0px;
-	text-align: center;
+    float: left;
+    width: 30%;
+    min-height: 200px;
+    background-color: #F2D0D7;
+    margin: 0px;
+    text-align: center;
 }
 
 
 /* The container */
+
 .container {
-	display: inline;
-	position: relative;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin-bottom: 0px;
-	cursor: pointer;
-	font-size: 12px;
-	user-select: none;
-	width: 20px;
+    display: inline;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    font-size: 12px;
+    user-select: none;
+    width: 20px;
 }
+
 
 /* Hide the browser's default radio button */
+
 .container input {
-	position: absolute;
-	opacity: 0;
-	cursor: pointer;
-	float: left;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    float: left;
 }
+
 
 /* Create a custom radio button */
-.checkmark {
-	position: absolute;
-	top: 10%;
-	left: 0%;
-	height: 15px;
-	width: 15px;
-	background-color: #eee;
-	border-radius: 50%;
 
+.checkmark {
+    position: absolute;
+    top: 10%;
+    left: 0%;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border-radius: 50%;
 }
+
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-	background-color: #ccc;
+
+.container:hover input~.checkmark {
+    background-color: #ccc;
 }
+
 
 /* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
-	background-color: #1B3BF2;
+
+.container input:checked~.checkmark {
+    background-color: #1B3BF2;
 }
+
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
+
 .checkmark:after {
-	content: "";
-	position: absolute;
-	display: none;
+    content: "";
+    position: absolute;
+    display: none;
 }
 
+
 /* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
-	display: block;
+
+.container input:checked~.checkmark:after {
+    display: block;
 }
 
 .container {
-  width: 90%;
+    width: 100%;
 }
 
 .progressbar {
-  counter-reset: step;
-}
-.progressbar li {
-  list-style: none;
-  display: inline-block;
-  width: 10%;
-  position: relative;
-  text-align: center;
-}
-.progressbar li:before {
-  content: counter(step);
-  counter-increment: step;
-  width: 30px;
-  height: 30px;
-  line-height : 30px;
-  border: 2px solid #ddd;
-  border-radius: 100%;
-  display: block;
-  text-align: center;
-  margin: 0 auto 10px auto;
-  background-color: #fff;
-}
-.progressbar li:after {
-  content: "";
-  position: absolute;
-  width: 20%;
-  height: 2px;
-  background-color: #ddd;
-  top: 25%;
-  left: -10%;
-}
-.progressbar li:first-child:after {
-  content: none;
-}
-.progressbar li.active {
-  color: green;
-}
-.progressbar li.active:before {
-  border-color: green;
-} 
-.progressbar li.active + li:after {
-  background-color: green;
+    counter-reset: step;
 }
 
+.progressbar li {
+    list-style: none;
+    display: inline-block;
+    width: 10%;
+    position: relative;
+    text-align: center;
+}
+
+.progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border: 2px solid rgb(187, 10, 10);
+    border-radius: 100%;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    background-color: #fff;
+}
+
+.progressbar li:after {
+    content: "";
+    position: absolute;
+    width: 20%;
+    height: 2px;
+    background-color: rgb(187, 10, 10);
+    top: 25%;
+    left: -10%;
+}
+
+.progressbar li:first-child:after {
+    content: none;
+}
+
+.progressbar li.active {
+    color: green;
+}
+
+.progressbar li.active:before {
+    border-color: green;
+}
+
+.progressbar li.active+li:after {
+    background-color: green;
+}
 
 </style>

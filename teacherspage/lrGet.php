@@ -4,6 +4,7 @@ class lrGet{
 	private $wpdb;
 	public $branchID = 0;
 	private $wholebranch;
+	private $name;
 	public $groupStudents = array(0,0,0,0,0,0);
 	public $exHomework = 'Önceki ödev bilgisi yok';
 	public function __construct()
@@ -19,6 +20,15 @@ class lrGet{
 			$this->branchID = $wb['branch_id'];
 		}
 		return $this->branchID;
+	}
+
+	function getStudentNames ($studentID){
+		global $wpdb;
+		$this->wholebranch = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_student WHERE student_id = '$studentID';", ARRAY_A);
+		foreach ($this->wholebranch as $wb){
+			$this->name = $wb['name'].' '.$wb['surname'];
+		}
+		return $this->name;
 	}
 
 	function getGroupStudents ($groupName){
@@ -43,6 +53,7 @@ class lrGet{
 		}
 		return $this->exHomework;
 	}
+
 
 	function getRI ($teacherid, $studentID, $dateInfo, $rI){
 		global $wpdb;
@@ -98,7 +109,6 @@ class lrGet{
 
 	function homeworkStatus($url, $styleClass, $vwid, $homeworkStatus, $content){
 
-
 		$content .= '<div class="'.$styleClass.' '.$vwid.'b">';
 		$content .= '<label>Önceki Derste Verilen Ödev</label><br>';
 		$content .= '<label class="container">Tam Yaptı';
@@ -137,7 +147,78 @@ class lrGet{
 			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" checked="checked" id="verilmedi'.$vwid.'" name="radiobtn'.$vwid.'" value="verilmedi">';
 		}else{
 			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" name="radiobtn'.$vwid.'" id="verilmedi'.$vwid.'" value="verilmedi">';
+		}	
+		
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Katılmadı';
+
+		if ($homeworkStatus == katilmadi) {
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" checked="checked" id="katilmadi'.$vwid.'" name="radiobtn'.$vwid.'" value="katilmadi">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunction(\''.$url.'\',\''.$vwid.'\')" name="radiobtn'.$vwid.'" id="katilmadi'.$vwid.'" value="katilmadi">';
+		}	
+
+		$content .= '<span class="checkmark"></span>
+		</label>
+		</div>';
+
+		return $content;
+	}
+
+	function homeworkStatusG($url, $styleClass, $vwid, $homeworkStatus, $content, $gRI, $i){
+		// tüm butonların isimlerine ve idlerine $i ekle
+		$content .= '<div class="'.$styleClass.' '.$vwid.'b">';
+		$content .= '<label>'.$gRI['names'][$i].'</label><br>';
+		$content .= '<label name="lTG'.$vwid.$i.'" id="lTG'.$vwid.$i.'">'.$gRI['lessonTopic'][$i].'</label><br>';
+		$content .= '<label name="nHG'.$vwid.$i.'" id="nHG'.$vwid.$i.'">'.$gRI['nextHomework'][$i].'</label><br>';
+		$content .= '<label class="container">Tam Yaptı';
+
+		if ($homeworkStatus == tam) {
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" checked="checked" name="radiobtn'.$vwid.$i.'" id="tam'.$vwid.$i.'" value="tam">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" name="radiobtn'.$vwid.$i.'" id="tam'.$vwid.$i.'" value="tam">';
 		}		
+
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Eksik/Özensiz';
+
+		if ($homeworkStatus == eksik) {
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" checked="checked" id="eksik'.$vwid.$i.'" name="radiobtn'.$vwid.$i.'" value="eksik">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" name="radiobtn'.$vwid.$i.'" id="eksik'.$vwid.$i.'" value="eksik">';
+		}
+
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Yapmadı';
+
+		if ($homeworkStatus == yok) {
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" checked="checked" id="yok'.$vwid.$i.'" name="radiobtn'.$vwid.$i.'" value="yok">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" name="radiobtn'.$vwid.$i.'" id="yok'.$vwid.$i.'" value="yok">';
+		}
+
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Verilmemişti';
+
+		if ($homeworkStatus == verilmedi) {
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" checked="checked" id="verilmedi'.$vwid.$i.'" name="radiobtn'.$vwid.$i.'" value="verilmedi">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" name="radiobtn'.$vwid.$i.'" id="verilmedi'.$vwid.$i.'" value="verilmedi">';
+		}		
+
+		$content .= '<span class="checkmark"></span>';
+		$content .= '</label>';
+		$content .= '<label class="container">Katılmadı';
+
+		if ($homeworkStatus == katilmadi) {
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" checked="checked" id="katilmadi'.$vwid.$i.'" name="radiobtn'.$vwid.$i.'" value="katilmadi">';
+		}else{
+			$content .= '<input type="radio" onclick="radioFunctionG(\''.$url.'\',\''.$vwid.'\',\''.$i.'\')" name="radiobtn'.$vwid.$i.'" id="katilmadi'.$vwid.$i.'" value="katilmadi">';
+		}	
 
 		$content .= '<span class="checkmark"></span>
 		</label>

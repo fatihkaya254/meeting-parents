@@ -9,7 +9,7 @@ if (isset($_POST['radioSet']) && $_POST['radioSet'] == '1') {
 	$who = $_POST['who'];
 	$recordID = $_POST['recordID'];
 	$content ='';
-
+	$kontrol = $_POST['kontrol'];
 	$wpdb->query("UPDATE {$wpdb->prefix}mp_lesson_records SET homework_status = '$homeworkStatus' WHERE lr_id = '$recordID'"); 
 
 	$wholeexams = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE lr_id = '$recordID';", ARRAY_A);
@@ -21,6 +21,7 @@ if (isset($_POST['radioSet']) && $_POST['radioSet'] == '1') {
 	$returning = [];
 	$returning['success'] = 1;
 	$returning['who'] = $who;
+	$returning['kontrol'] = $kontrol;
 	$returning['content'] = $content;
 	echo json_encode($returning);
 
