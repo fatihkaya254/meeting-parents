@@ -60,11 +60,11 @@ class lrGet
         return $this->exHomework;
     }
 
-    public function getRI($teacherid, $studentID, $dateInfo, $rI)
+    public function getRI($teacherid, $studentID, $hangisaat, $dateInfo, $rI)
     {
         global $wpdb;
 
-        $this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE teacher_id = '$teacherid' AND student_id = '$studentID' AND date_info = '$dateInfo' ORDER BY date_info ASC LIMIT 0,1;", ARRAY_A);
+        $this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE teacher_id = '$teacherid' AND hangiders = '$hangisaat' AND student_id = '$studentID' AND date_info = '$dateInfo' ORDER BY date_info ASC LIMIT 0,1;", ARRAY_A);
         foreach ($this->wholerecords as $tr) {
             $rI['cssClassL'] = 'lesson_cont la';
             $rI['cssClassR'] = 'lesson_cont ra';
@@ -87,13 +87,13 @@ class lrGet
         return $rI;
     }
 
-    public function getGRI($teacherid, $studentID, $dateInfo, $gRI)
+    public function getGRI($teacherid, $studentID, $hangisaat, $dateInfo, $gRI)
     {
         global $wpdb;
 
         for ($i = 0; $i < 6; $i++) {
 
-            $this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE teacher_id = '$teacherid' AND student_id = '$studentID[$i]' AND date_info = '$dateInfo' ORDER BY date_info ASC LIMIT 0,1;", ARRAY_A);
+            $this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_lesson_records WHERE teacher_id = '$teacherid' AND hangiders = '$hangisaat' AND student_id = '$studentID[$i]' AND date_info = '$dateInfo' ORDER BY date_info ASC LIMIT 0,1;", ARRAY_A);
             foreach ($this->wholerecords as $tr) {
                 $gRI['cssClassL'] = 'lesson_cont la';
                 $gRI['cssClassR'] = 'lesson_cont ra';
@@ -127,7 +127,7 @@ class lrGet
         $content .= '<label>Önceki Derste Verilen Ödev</label><br>';
         $content .= '<label class="container">Tam Yaptı';
 
-        if ($homeworkStatus == tam) {
+        if ($homeworkStatus == 'tam') {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" checked="checked" name="radiobtn' . $vwid . '" id="tam' . $vwid . '" value="tam">';
         } else {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" name="radiobtn' . $vwid . '" id="tam' . $vwid . '" value="tam">';
@@ -137,7 +137,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Eksik/Özensiz';
 
-        if ($homeworkStatus == eksik) {
+        if ($homeworkStatus == 'eksik') {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" checked="checked" id="eksik' . $vwid . '" name="radiobtn' . $vwid . '" value="eksik">';
         } else {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" name="radiobtn' . $vwid . '" id="eksik' . $vwid . '" value="eksik">';
@@ -147,7 +147,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Yapmadı';
 
-        if ($homeworkStatus == yok) {
+        if ($homeworkStatus == 'yok') {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" checked="checked" id="yok' . $vwid . '" name="radiobtn' . $vwid . '" value="yok">';
         } else {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" name="radiobtn' . $vwid . '" id="yok' . $vwid . '" value="yok">';
@@ -157,7 +157,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Verilmemişti';
 
-        if ($homeworkStatus == verilmedi) {
+        if ($homeworkStatus == 'verilmedi') {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" checked="checked" id="verilmedi' . $vwid . '" name="radiobtn' . $vwid . '" value="verilmedi">';
         } else {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" name="radiobtn' . $vwid . '" id="verilmedi' . $vwid . '" value="verilmedi">';
@@ -167,7 +167,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Katılmadı';
 
-        if ($homeworkStatus == katilmadi) {
+        if ($homeworkStatus == 'katilmadi') {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" checked="checked" id="katilmadi' . $vwid . '" name="radiobtn' . $vwid . '" value="katilmadi">';
         } else {
             $content .= '<input type="radio" onclick="radioFunction(\'' . $url . '\',\'' . $vwid . '\')" name="radiobtn' . $vwid . '" id="katilmadi' . $vwid . '" value="katilmadi">';
@@ -241,7 +241,16 @@ class lrGet
 
         return $content;
     }
-
+	public function beforeSunrise($lessonInfo, $hangisaat, $teacherid, $content, $vwid, $path){
+		global $wpdb;
+		$hangisaat = $hangisaat -1;
+		$ders = $teacherid. ' - '.$hangisaat.'. ' . Saat;
+        $this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_virtualweek WHERE vw_name = '$ders' AND sal = '$lessonInfo'", ARRAY_A);
+        foreach ($this->wholerecords as $tr) {
+			$content .= '<input style="color: #000; background-color: #F29BAB;" type="submit" id="esitle' . $tr['qp_id'] . '" name="esitle' . $tr['qp_id'] . '" value="Bir Önceki Dersin Bilgilerini Getir" onclick="beforeSunrise(\'' . $vwid . '\',\'' . $path . '\')">';
+		}	
+		return $content;
+	}
     public function getLessonProcess($date, $day, $hour, $lessonhour, $min, $teacherid, $content, $url, $setQPURL)
     {
         global $wpdb;
@@ -294,7 +303,6 @@ class lrGet
             $content .= '<input type="hidden" id="qpteaid' . $tr['qp_id'] . '" name="qpteaid' . $tr['qp_id'] . '" value="' . $teacherid . '">';
             $content .= '<input type="hidden" id="qphangisaat' . $tr['qp_id'] . '" name="qphangisaat' . $tr['qp_id'] . '" value="' . $hour . '">';
             $content .= '<input type="hidden" id="qprecordID' . $tr['qp_id'] . '" name="qprecordID' . $tr['qp_id'] . '" value="' . $lrid . '">';
-            $content .= '<input type="hidden" id="qpstudentName' . $tr['qp_id'] . '" name="qpstudentName' . $tr['qp_id'] . '" value="' . $studentName . '">';
 
             $content .= '</div>';
 

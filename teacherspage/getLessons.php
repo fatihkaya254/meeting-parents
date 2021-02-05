@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__, 2) . '/teacherspage/timeTime.php';
 
 $path = preg_replace('/wp-content.*$/', '', __DIR__);
 require_once $path . "wp-load.php";
@@ -12,9 +13,14 @@ $startGroupLessonURL = site_url() . '/wp-content/plugins/meeting-parents/teacher
 $radioSetURL = site_url() . '/wp-content/plugins/meeting-parents/teacherspage/radioSet.php/';
 $setLessonStatusURL = site_url() . '/wp-content/plugins/meeting-parents/teacherspage/setLessonStatus.php/';
 $setNextHomeworkURL = site_url() . '/wp-content/plugins/meeting-parents/teacherspage/setNextHomework.php/';
-$hours = array("11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00");
+$hours;
 
 if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
+    $tT = new timeTime;
+    $time = $tT->getCurrentTime('');
+    $date = $tT->getCurrentDate('');
+    $bugun = $tT->getCurrentDay('');
+    $hours = $tT->getLesssonHours('');
 
     $exhomework = '';
     $smsText = '';
@@ -25,6 +31,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
     $wholeexams = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_virtualweek WHERE teacher_id = '$teacherid';", ARRAY_A);
     foreach ($wholeexams as $we) {
         $getir = new lrGet();
+
         $rI = array();
         $rI['cssClassL'] = 'lesson_cont l';
         $rI['cssClassR'] = 'lesson_cont r';
@@ -51,7 +58,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
 
         $hangidersar = explode(".", $hangiders);
         $hangisaat = $hangidersar[0];
-        $lessoninfo = $we['sal'];
+        $lessoninfo = $we[$bugun];
         $lessonExp = explode(' ', $lessoninfo);
         $lessonBranch = $lessonExp[1];
         $url = $startLessonURL;
@@ -60,8 +67,8 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
         }
 
         if ($lessoninfo == "0") {
-            $content .= $getir->getLessonProcess('2021-01-10', 'sal', $hangisaat . '1', $hours[$hangisaat], '00', $teacherid, '', $startQuestionProcessURL, $setQPURL);
-            $content .= $getir->getLessonProcess('2021-01-10', 'sal', $hangisaat . '2', $hours[$hangisaat], '25', $teacherid, '', $startQuestionProcessURL, $setQPURL);
+            $content .= $getir->getLessonProcess($date, $bugun, $hangisaat . '1', $hours[$hangisaat], '00', $teacherid, '', $startQuestionProcessURL, $setQPURL);
+            $content .= $getir->getLessonProcess($date, $bugun, $hangisaat . '2', $hours[$hangisaat], '25', $teacherid, '', $startQuestionProcessURL, $setQPURL);
         } else {
 
             $branchID = $getir->getBranchID($lessonBranch); //branş ID bilgisi alınır
@@ -72,9 +79,9 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
             }
             if ($studentID != 'G') {
 
-                $rI = $getir->getRI($teacherid, $studentID, '2021.01.10', $rI); //ders bilgileri alınır
+                $rI = $getir->getRI($teacherid, $studentID, $hangisaat, $date, $rI); //ders bilgileri alınır
 
-                $exhomework = $getir->getExHomework('2021.01.09', $teacherid, $studentID); // bir önceki ödev bilgisi alınır
+                $exhomework = $getir->getExHomework($date, $teacherid, $studentID); // bir önceki ödev bilgisi alınır
 
                 $baslat = "";
                 $bitir = "display: none;";
@@ -125,10 +132,19 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
             } else if ($studentID == 'G') {
 
                 $groupStudents = $getir->getGroupStudents($studentName);
+
+                for ($exhomgr = 0; $exhomgr < 6; $exhomgr++) {
+                    if ($groupStudents[$exhomgr] == 0) {
+                        continue;
+                    }
+
+                    $exhomework = $getir->getExHomework($date, $teacherid, $groupStudents[$exhomgr]); // bir önceki ödev bilgisi alınır
+                }
+
                 for ($gsg = 0; $gsg < 6; $gsg++) {
                     $gRI['names'][$gsg] = $getir->getStudentNames($groupStudents[$gsg]);
                 }
-                $gRI = $getir->getGRI($teacherid, $groupStudents, '2021.01.10', $gRI); //ders bilgileri alınır
+                $gRI = $getir->getGRI($teacherid, $groupStudents, $hangisaat, $date, $gRI); //ders bilgileri alınır
 
                 $homework = "";
                 $lesson = "";
@@ -189,7 +205,8 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
                 $content .= '</div>';
 
                 $content .= '<div id="a" class="' . $gRI['cssClassL'] . ' ' . $we['vw_id'] . 'b">';
-                $content .= '<label>İşlenen Konu </label>';
+                $content .= $getir->beforeSunrise($lessoninfo, $hangisaat, $teacherid, '', $we['vw_id'], site_url());
+                $content .= '<br /><br /><label>İşlenen Konu </label>';
                 $content .= '<input type="text" onfocusout="';
                 for ($sett = 0; $sett < 6; $sett++) {
                     $content .= 'setLessonStatus(\'' . $setLessonStatusURL . '\',\'' . $we['vw_id'] . '\',\'' . $sett . '\');';

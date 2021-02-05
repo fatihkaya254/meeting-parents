@@ -725,3 +725,32 @@ function changeQP(who) {
         jQuery("#qpkapat" + who).css("margin", "auto");
     }
 }
+
+function beforeSunrise(vwid, path) {
+    var bwid = vwid - 1;
+    var setLessonStatusURL = path + "/wp-content/plugins/meeting-parents/teacherspage/setLessonStatus.php/";
+    var setNextHomeworkURL = path + "/wp-content/plugins/meeting-parents/teacherspage/setNextHomework.php/";
+    var radioURL = path + "/wp-content/plugins/meeting-parents/teacherspage/radioSet.php/";
+    for (let kontrol = 0; kontrol < 6; kontrol++) {
+        homeworkStatus = jQuery("input[name=radiobtn" + bwid + kontrol + "]:checked").val();
+        jQuery("#" + homeworkStatus + vwid + kontrol).prop('checked', true);
+    }
+    for (let index = 0; index < 6; index++) {
+        radioFunctionG(radioURL, vwid, index);
+        
+    }
+
+    var homework = jQuery("#lessonStatus" + bwid ).val();
+    jQuery("#lessonStatus" + vwid ).val(homework);
+  
+    for (let index = 0; index < 6; index++) {
+        setLessonStatus(setLessonStatusURL, vwid, index);
+    }
+ 
+    jQuery("#nextHomework" + vwid ).val(jQuery("#nextHomework" + bwid ).val());
+    for (let index = 0; index < 6; index++) {
+        setNextHomework(setNextHomeworkURL, vwid, index);
+    }
+
+
+}
