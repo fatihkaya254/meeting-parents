@@ -1,11 +1,13 @@
 <?php 
 
+
 $path = preg_replace('/wp-content.*$/', '', __DIR__);
 require_once($path."wp-load.php");
 require_once dirname(__FILE__, 2) . '/teacherspage/timeTime.php';
 
 if (isset($_POST['fin']) && $_POST['fin'] == '1') {
-    $time = $tT->getCurrentTime('');
+	$tT = new timeTime;
+	$time = $tT->getCurrentTime('');
 
 	$who = $_POST['who'];
 	$recordID = $_POST['recordID'];

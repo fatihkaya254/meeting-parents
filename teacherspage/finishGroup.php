@@ -5,6 +5,7 @@ require_once($path."wp-load.php");
 require_once dirname(__FILE__, 2) . '/teacherspage/timeTime.php';
 
 if (isset($_POST['fin']) && $_POST['fin'] == '1') {
+	$tT = new timeTime;
     $time = $tT->getCurrentTime('');
 
 	$who = $_POST['who'];

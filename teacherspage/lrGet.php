@@ -294,7 +294,6 @@ class lrGet
             $content .= '<h1 id="qphour' . $tr['qp_id'] . '">' . $lh . '</h1>';
             $content .= '<h2 id="qpname' . $tr['qp_id'] . '">' . $name . '</h2>';
             $content .= '<p>Soru Çözümü</p>';
-            $content .= '<p class="sms" id="sms' . $tr['qp_id'] . '"></p>';
             $content .= '<input style="' . $duzenle . '" type="submit" id="qpduzenle' . $tr['qp_id'] . '" name="qpduzenle' . $tr['qp_id'] . '" value="Düzenle" onclick="changeQP(\'' . $tr['qp_id'] . '\')">';
             $content .= '<input style="' . $kapat . '" type="submit" id="qpkapat' . $tr['qp_id'] . '" name="qpkapat' . $tr['qp_id'] . '" value="Düzenlemeyi Bitir" onclick="closeQP(\'' . $tr['qp_id'] . '\')">';
             $content .= '<input style="' . $baslat . '" type="submit" id="qpbaslat' . $tr['qp_id'] . '" name="qpbaslat' . $tr['qp_id'] . '" value="Başlat" onclick="startQuestionProcess(\'' . $url . '\',\'' . $tr['qp_id'] . '\')">';
