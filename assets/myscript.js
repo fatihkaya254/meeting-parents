@@ -45,7 +45,7 @@ function posttophp(ddd, sendurl, callback) {
         cache: false,
         processData: false,
         contentType: false,
-        success: function(response) {
+        success: function (response) {
             callback(response);
         },
     });
@@ -364,18 +364,78 @@ function startLessonCallback(data) {
     console.log(content);
     if (jdata.success == 1) {
         jQuery("#recordID" + who).val(lrid);
-        jQuery(".lesson_cont ." + who + "a").animate({ width: "30%" }, function() {
+        var width = jQuery(window).width();
+        if (width > 769) {
+            jQuery(".lesson_cont ." + who + "a").animate({ width: "30%" }, function () {
+                jQuery(".lesson_cont ." + who + "b").css("display", "block");
+                jQuery("#baslat" + who).css("display", "none");
+                jQuery("#bitir" + who).css("display", "block");
+                jQuery("#bitir" + who).css("margin", "auto");
+            });
+        } else {
             jQuery(".lesson_cont ." + who + "b").css("display", "block");
-        });
+            jQuery("#baslat" + who).css("display", "none");
+            jQuery("#bitir" + who).css("display", "block");
+            jQuery("#bitir" + who).css("margin", "auto");
+        }
     }
 }
 
 
 function ac(who) {
     console.log(who);
-    jQuery(".lesson_cont ." + who + "a").animate({ width: "30%" }, function() {
-        jQuery(".lesson_cont ." + who + "b").css("display", "block");
+    jQuery(".lesson_cont ." + who + "a").animate({ width: "30%" }, function () {
+        jQuery(".lesson_cont ." + who + "b").fadeIn(1500);
     });
+}
+
+
+//soru çözümü baslat
+function startQuestionProcess(getUrl, id) {
+    console.log('Start process for get exams');
+    var fdrntl = new FormData();
+    fdrntl.append('startLesson', '1');
+    fdrntl.append('branch', jQuery("#qpbranch" + id).val());
+    fdrntl.append('stuid', jQuery("#qpstuid" + id).val());
+    fdrntl.append('teaid', jQuery("#qpteaid" + id).val());
+    fdrntl.append('hangisaat', jQuery("#qphangisaat" + id).val());
+    fdrntl.append('studentName', jQuery("#qpstudentName" + id).val());
+    fdrntl.append('who', id);
+    console.log(jQuery("#qpstuid" + id).val());
+    posttophp(fdrntl, getUrl, startQuestionProcessCallback);
+
+}
+
+function startQuestionProcessCallback(data) {
+    console.log('mission also success');
+
+    var jdata = JSON.parse(data);
+    console.log(jdata.success);
+    console.log('test');
+    var content = jdata.content;
+    var who = jdata.who;
+    var lrid = jdata.lrid;
+    console.log(who);
+    console.log(content);
+    console.log(lrid);
+    if (jdata.success == 1) {
+        jQuery("#qprecordID" + who).val(lrid);
+        var width = jQuery(window).width();
+        console.log('asdf')
+        if (width > 830) {
+            jQuery(".lesson_cont ." + who + "qpa").animate({ width: "30%" }, function () {
+                jQuery(".lesson_cont ." + who + "qpb").fadeIn(500);
+                jQuery("#qpkapat" + who).css("display", "block");
+                jQuery("#qpbaslat" + who).css("display", "none");
+                jQuery("#qpkapat" + who).css("margin", "auto");
+            });
+        } else {
+            jQuery(".lesson_cont ." + who + "qpb").fadeIn(500);
+            jQuery("#qpkapat" + who).css("display", "block");
+            jQuery("#qpbaslat" + who).css("display", "none");
+            jQuery("#qpkapat" + who).css("margin", "auto");
+        }
+    }
 }
 
 
@@ -403,6 +463,7 @@ function radioFunctionCallback(data) {
     var who = jdata.who;
     if (jdata.success == 1) {
         jQuery("#" + content + who).prop('checked', true);
+        setSms(who, '');
     }
 }
 
@@ -432,6 +493,7 @@ function radioFunctionCallbackG(data) {
     var who = jdata.who;
     if (jdata.success == 1) {
         jQuery("#" + content + who + kontrol).prop('checked', true);
+        setSms(who, kontrol);
     }
 }
 
@@ -463,6 +525,7 @@ function setLessonStatusCallback(data) {
     if (jdata.success == 1) {
         jQuery("#lessonStatus" + who + kontrol).val(content);
         jQuery("#lTG" + who + kontrol).html(content);
+        setSms(who, kontrol);
     }
 }
 
@@ -493,17 +556,45 @@ function setNextHomeworkCallback(data) {
     if (jdata.success == 1) {
         jQuery("#nextHomework" + who + kontrol).val(content);
         jQuery("#nHG" + who + kontrol).html(content);
-        setSms(who, '');
+        setSms(who, kontrol);
+    }
+}
+
+// Set qp
+
+function setQP(getUrl, id) {
+    console.log('Start process for get exams');
+    var fdrntl = new FormData();
+    fdrntl.append('setQP', '1');
+    fdrntl.append('who', id);
+    fdrntl.append('recordID', jQuery("#qprecordID" + id).val());
+    fdrntl.append('tque', jQuery("#tque" + id).val());
+    fdrntl.append('sque', jQuery("#sque" + id).val());
+    posttophp(fdrntl, getUrl, setQPCallback);
+}
+
+function setQPCallback(data) {
+    console.log('mission also success');
+    var jdata = JSON.parse(data);
+    console.log(jdata.who);
+    console.log('test');
+    var tasked = jdata.tasked;
+    var sasked = jdata.sasked;
+    console.log(content);
+    var who = jdata.who;
+    if (jdata.success == 1) {
+        jQuery("#tque" + who).val(tasked);
+        jQuery("#sque" + who).val(sasked);
     }
 }
 
 function setSms(who, kontrol) {
     var hour, lessonStatus, homeworkStatus, name, nextHomework;
 
-    nextHomework = jQuery("#nextHomework" + who + kontrol).val();
-    lessonStatus = jQuery("#lessonStatus" + who + kontrol).val();
+    nextHomework = jQuery("#nextHomework" + who).val();
+    lessonStatus = jQuery("#lessonStatus" + who).val();
     homeworkStatus = jQuery("input[name=radiobtn" + who + kontrol + "]:checked").val();
-    hour = jQuery("#hour" + who + kontrol).text();
+    hour = jQuery("#hour" + who).text();
     name = jQuery("#name" + who + kontrol).text();
 
     var smsText = name + ", " + hour + ", ";
@@ -520,6 +611,117 @@ function setSms(who, kontrol) {
         smsText += "Öğrenci derse katılmadı. Bir sonraki ödev: " + nextHomework;
     }
     smsText += " İşleyen Zihinler "
-    console.log("sms: " + smsText);
     jQuery("#sms" + who + kontrol).text(smsText);
+}
+
+// finish lesson
+
+function finishLesson(getUrl, id, kontrol) {
+    console.log('finishing');
+    var fdrntl = new FormData();
+    fdrntl.append('fin', '1');
+    fdrntl.append('recordID', jQuery("#recordID" + id + kontrol).val());
+    fdrntl.append('who', id);
+    posttophp(fdrntl, getUrl, finishCallBack);
+}
+
+function finishCallBack(data) {
+    console.log('mission also success');
+    var jdata = JSON.parse(data);
+    var who = jdata.who;
+    if (jdata.success == 1) {
+        jQuery(".lesson_cont ." + who + "b").fadeOut(100, function () {
+            console.log('kkk')
+            var width = jQuery(window).width();
+            if (width > 830) {
+                jQuery(".lesson_cont ." + who + "a").animate({ width: "98%" });
+            }
+            jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
+            jQuery("#baslat" + who).css("display", "none");
+            jQuery("#bitir" + who).css("display", "none");
+            jQuery("#duzenle" + who).css("display", "block");
+            jQuery("#duzenle" + who).css("margin", "auto");
+        });
+    }
+}
+
+
+
+function changeStatus(who) {
+
+    console.log('fisot')
+    var width = jQuery(window).width();
+    if (width > 830) {
+        jQuery(".lesson_cont ." + who + "a").animate({ width: "30%" }, function () {
+            jQuery(".lesson_cont ." + who + "b").fadeIn(500);
+            jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
+            jQuery("#kapat" + who).css("display", "block");
+            jQuery("#duzenle" + who).css("display", "none");
+            jQuery("#kapat" + who).css("margin", "auto");
+
+        });
+    } else {
+        jQuery(".lesson_cont ." + who + "b").fadeIn(500);
+        jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
+        jQuery("#kapat" + who).css("display", "block");
+        jQuery("#duzenle" + who).css("display", "none");
+        jQuery("#kapat" + who).css("margin", "auto");
+    }
+}
+
+function closeChange(who) {
+
+    console.log('aa')
+    jQuery(".lesson_cont ." + who + "b").fadeOut(100, function () {
+        console.log('kkk')
+        var width = jQuery(window).width();
+        if (width > 830) {
+            jQuery(".lesson_cont ." + who + "a").animate({ width: "98%" });
+        }
+        jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
+        jQuery("#duzenle" + who).css("display", "block");
+        jQuery("#kapat" + who).css("display", "none");
+        jQuery("#duzenle" + who).css("margin", "auto");
+
+    });
+}
+
+function closeQP(who) {
+
+    console.log('aa')
+    jQuery(".lesson_cont ." + who + "qpb").fadeOut(100, function () {
+        console.log('kkk')
+        var width = jQuery(window).width();
+        if (width > 830) {
+            jQuery(".lesson_cont ." + who + "qpa").animate({ width: "98%" });
+        }
+        jQuery(".lesson_cont ." + who + "qpa").css("background-color", "#F29BAB");
+        jQuery("#qpduzenle" + who).css("display", "block");
+        jQuery("#qpkapat" + who).css("display", "none");
+        jQuery("#qpduzenle" + who).css("margin", "auto");
+
+    });
+}
+
+
+function changeQP(who) {
+
+    console.log('fisot')
+    var width = jQuery(window).width();
+    if (width > 830) {
+        jQuery(".lesson_cont ." + who + "qpa").animate({ width: "30%" }, function () {
+            jQuery(".lesson_cont ." + who + "qpb").fadeIn(500);
+            jQuery(".lesson_cont ." + who + "qpa").css("background-color", "#F29BAB");
+            jQuery("#qpkapat" + who).css("display", "block");
+            jQuery("#qpduzenle" + who).css("display", "none");
+            jQuery("#qpkapat" + who).css("margin", "auto");
+
+        });
+    } else {
+        jQuery(".lesson_cont ." + who + "qpb").fadeIn(500);
+        jQuery(".lesson_cont ." + who + "qpa").css("background-color", "#F29BAB");
+        jQuery("#qpkapat" + who).css("display", "block");
+        jQuery("#qpduzenle" + who).css("display", "none");
+        jQuery("#qpkapat" + who).css("margin", "auto");
+    }
 }
