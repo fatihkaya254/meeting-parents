@@ -1,423 +1,456 @@
 <style type="text/css">@charset "UTF-8";
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
 
 @media only screen and (min-width: 831px) {
-.lesson_cont h1 {
-    font-size: 22px;
-    color: #1B3BF2;
-}
-
-.lesson_cont h1 {
-    font-size: 22px;
-    color: #1B3BF2;
-}
-
-.lesson_cont h2 {
-    font-size: 18px;
-    color: #1B3BF2;
-}
-
-.lesson_cont p {
-    font-size: 12px;
-    color: #1B3BF2;
-}
-
-.lesson_cont input[type=text] {
-    width: 100%;
-    height: 30px;
-    background-color: #FEC8CF;
-    box-sizing: border-box;
-    font-size: 14px;
-    border-bottom: 1px solid #FEC8CF;
-    transition: border-bottom 0.1s ease-in-out;
-}
-
-.lesson_cont input[type=submit] {
-    background-color: #1B3BF2;
-    font-size: 14px;
-    height: 40px;
-    border-radius: 0.3em;
-}
-
-.lesson_cont input[type=text]:focus {
-    border-bottom: 0px solid #000;
-    background-color: #ECECF5;
-    width: 100%;
-}
-
-.lesson_cont {
-    float: left;
-    width: 90%;
-    background-color: #F29BAB;
-    border-radius: 2em;
-    padding: 1%;
-    margin-bottom: 15px;
-}
-
-.lesson_cont .l {
-    float: right;
-    width: 64%;
-    /*background-color: #FF506B;*/
-    padding: 2%;
-    display: none;
-    margin: 0px;
-}
-
-.lesson_cont .la {
-    float: right;
-    width: 64%;
-    /*background-color: #FF506B;*/
-    padding: 2%;
-    display: block;
-    margin: 0px;
-}
-
-.lesson_cont .lk {
-    float: right;
-    width: 64%;
-    /*background-color: #FF506B;*/
-    padding: 2%;
-    display: none;
-    margin: 0px;
-}
-
-.lesson_cont .r {
-    float: left;
-    width: 98%;
-    background-color: #F2D0D7;
-    margin: 0px;
-    text-align: center;
-    min-height: 200px;
-}
-
-.lesson_cont .ra {
-    float: left;
-    width: 30%;
-    min-height: 200px;
-    background-color: #F2D0D7;
-    margin: 0px;
-    text-align: center;
-}
-.lesson_cont .rk {
-    float: left;
-    width: 98%;
-    background-color: #F29BAB;
-    margin: 0px;
-    text-align: center;
-    min-height: 200px;
-}
 
 
-/* The container */
-
-.container {
-    display: inline;
-    position: relative;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 0px;
-    cursor: pointer;
-    font-size: 12px;
-    user-select: none;
-    width: 20px;
-}
 
 
-/* Hide the browser's default radio button */
-
-.container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    float: left;
-}
-
-
-/* Create a custom radio button */
-
-.checkmark {
-    position: absolute;
-    top: 10%;
-    left: 0%;
-    height: 15px;
-    width: 15px;
-    background-color: #eee;
-    border-radius: 50%;
-}
+    .lesson_cont h1 {
+        font-size  : 22px;
+        color      : #1B3BF2;
+        font-style : normal;
+        font-weight: 400;
+        font-family: 'Rubik', sans-serif;
+        font-size  : 16pt;
+    }
 
 
-/* On mouse-over, add a grey background color */
+    .lesson_cont h2 {
+        font-size  : 16pt;
+        color      : #1B3BF2;
+        font-style : normal;
+        font-weight: 500;
+        font-family: 'Rubik', sans-serif;
+    }
 
-.container:hover input~.checkmark {
-    background-color: #ccc;
-}
+    .lesson_cont p {
+        font-size  : 11pt;
+        color      : #1B3BF2;
+        font-family: 'Karla', sans-serif;
+    }
+
+    .lesson_cont input[type=text] {
+        font-size       : 11pt;
+        width           : 100%;
+        height          : 30px;
+        background-color: #FEC8CF;
+        box-sizing      : border-box;
+        font-size       : 14px;
+        border-bottom   : 1px solid #FEC8CF;
+        border-radius   : 0.3em;
+        font-family     : 'Karla', sans-serif;
+        transition      : border-bottom 0.1s ease-in-out;
+    }
+
+    .lesson_cont input[type=submit] {
+        font-size       : 11pt;
+        background-color: #1B3BF2;
+        font-size       : 14px;
+        height          : 40px;
+        border-radius   : 0.3em;
+        font-family     : 'Karla', sans-serif;
+    }
+
+    .lesson_cont input[type=text]:focus {
+        font-size       : 11pt;
+        border-bottom   : 0px solid #000;
+        background-color: #ECECF5;
+        width           : 100%;
+        font-family     : 'Karla', sans-serif;
+    }
+
+    .lesson_cont {
+        float           : left;
+        width           : 90%;
+        background-color: #F29BAB;
+        border-radius   : 2em;
+        padding         : 1%;
+        margin-bottom   : 15px;
+    }
+
+    .lesson_cont .l {
+        float             : right;
+        width             : 64%;
+        /*background-color: #FF506B;*/
+        padding           : 2%;
+        display           : none;
+        margin            : 0px;
+    }
+
+    .lesson_cont .la {
+        float             : right;
+        width             : 64%;
+        /*background-color: #FF506B;*/
+        padding           : 2%;
+        display           : block;
+        margin            : 0px;
+    }
+
+    .lesson_cont .lk {
+        float             : right;
+        width             : 64%;
+        /*background-color: #FF506B;*/
+        padding           : 2%;
+        display           : none;
+        margin            : 0px;
+    }
+
+    .lesson_cont .r {
+        float           : left;
+        width           : 98%;
+        background-color: #F2D0D7;
+        margin          : 0px;
+        text-align      : center;
+        min-height      : 200px;
+    }
+
+    .lesson_cont .ra {
+        float           : left;
+        width           : 30%;
+        min-height      : 200px;
+        background-color: #F2D0D7;
+        margin          : 0px;
+        text-align      : center;
+    }
+
+    .lesson_cont .rk {
+        float           : left;
+        width           : 98%;
+        background-color: #F29BAB;
+        margin          : 0px;
+        text-align      : center;
+        min-height      : 200px;
+    }
 
 
-/* When the radio button is checked, add a blue background */
+    /* The container */
 
-.container input:checked~.checkmark {
-    background-color: #1B3BF2;
-}
+    .container {
+        display      : inline;
+        position     : relative;
+        padding-left : 20px;
+        padding-right: 20px;
+        margin-bottom: 0px;
+        cursor       : pointer;
+        font-size    : 11pt;
+        user-select  : none;
+        width        : 20px;
+        font-family  : 'Karla', sans-serif;
+    }
 
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
+    /* Hide the browser's default radio button */
 
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
+    .container input {
+        position   : absolute;
+        opacity    : 0;
+        cursor     : pointer;
+        float      : left;
+        font-family: 'Karla', sans-serif;
+    }
 
 
-/* Show the indicator (dot/circle) when checked */
+    /* Create a custom radio button */
 
-.container input:checked~.checkmark:after {
-    display: block;
-}
+    .checkmark {
+        position        : absolute;
+        top             : 10%;
+        left            : 0%;
+        height          : 15px;
+        width           : 15px;
+        background-color: #eee;
+        border-radius   : 50%;
+    }
 
-.container {
-    width: 100%;
-}
 
-.progressbar {
-    counter-reset: step;
-}
+    /* On mouse-over, add a grey background color */
 
-.progressbar li {
-    list-style: none;
-    display: inline-block;
-    width: 10%;
-    position: relative;
-    text-align: center;
-}
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
 
-.progressbar li:before {
-    content: counter(step);
-    counter-increment: step;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    border: 2px solid rgb(187, 10, 10);
-    border-radius: 100%;
-    display: block;
-    text-align: center;
-    margin: 0 auto 10px auto;
-    background-color: #fff;
-}
 
-.progressbar li:after {
-    content: "";
-    position: absolute;
-    width: 20%;
-    height: 2px;
-    background-color: rgb(187, 10, 10);
-    top: 25%;
-    left: -10%;
-}
+    /* When the radio button is checked, add a blue background */
 
-.progressbar li:first-child:after {
-    content: none;
-}
+    .container input:checked~.checkmark {
+        background-color: #1B3BF2;
+    }
 
-.progressbar li.active {
-    color: green;
-}
 
-.progressbar li.active:before {
-    border-color: green;
-}
+    /* Create the indicator (the dot/circle - hidden when not checked) */
 
-.progressbar li.active+li:after {
-    background-color: green;
-}
+    .checkmark:after {
+        content : "";
+        position: absolute;
+        display : none;
+    }
 
-.lesson_cont .sms{
-    color: #000;   
-}
+
+    /* Show the indicator (dot/circle) when checked */
+
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .progressbar {
+        counter-reset: step;
+    }
+
+    .progressbar li {
+        list-style: none;
+        display   : inline-block;
+        width     : 10%;
+        position  : relative;
+        text-align: center;
+    }
+
+    .progressbar li:before {
+        content          : counter(step);
+        counter-increment: step;
+        width            : 30px;
+        height           : 30px;
+        line-height      : 30px;
+        border           : 2px solid rgb(187, 10, 10);
+        border-radius    : 100%;
+        display          : block;
+        text-align       : center;
+        margin           : 0 auto 10px auto;
+        background-color : #fff;
+    }
+
+    .progressbar li:after {
+        content         : "";
+        position        : absolute;
+        width           : 20%;
+        height          : 2px;
+        background-color: rgb(187, 10, 10);
+        top             : 25%;
+        left            : -10%;
+    }
+
+    .progressbar li:first-child:after {
+        content: none;
+    }
+
+    .progressbar li.active {
+        color: green;
+    }
+
+    .progressbar li.active:before {
+        border-color: green;
+    }
+
+    .progressbar li.active+li:after {
+        background-color: green;
+    }
+
+    .lesson_cont .sms {
+        color: #000;
+    }
 }
 
 @media only screen and (max-width: 830px) {
     .lesson_cont h1 {
-        font-size: 22px;
-        color: #1B3BF2;
+        font-size  : 22px;
+        color      : #1B3BF2;
+        font-style : normal;
+        font-weight: 500;
+        font-family: 'Rubik', sans-serif;
+        font-size  : 16pt;
     }
-    
-    .lesson_cont h1 {
-        font-size: 22px;
-        color: #1B3BF2;
-    }
-    
+
+
     .lesson_cont h2 {
-        font-size: 18px;
-        color: #1B3BF2;
+        font-size  : 16pt;
+        color      : #1B3BF2;
+        font-style : normal;
+        font-weight: 600;
+        font-family: 'Rubik', sans-serif;
     }
-    
+
     .lesson_cont p {
-        font-size: 12px;
-        color: #1B3BF2;
+        font-size  : 12pt;
+        color      : #1B3BF2;
+        font-family: 'Karla', sans-serif;
     }
-    
+
     .lesson_cont input[type=text] {
-        width: 100%;
-        height: 30px;
+        font-size       : 12pt;
+        width           : 100%;
+        height          : 30px;
         background-color: #FEC8CF;
-        box-sizing: border-box;
-        font-size: 14px;
-        border-bottom: 1px solid #FEC8CF;
-        transition: border-bottom 0.1s ease-in-out;
+        box-sizing      : border-box;
+        font-size       : 14px;
+        border-bottom   : 1px solid #FEC8CF;
+        border-radius   : 0.3em;
+        font-family     : 'Karla', sans-serif;
+        transition      : border-bottom 0.1s ease-in-out;
     }
-    
+
     .lesson_cont input[type=submit] {
+        font-size       : 12pt;
         background-color: #1B3BF2;
-        font-size: 14px;
-        height: 40px;
-        border-radius: 0.3em;
+        font-size       : 14px;
+        height          : 40px;
+        border-radius   : 0.3em;
+        font-family     : 'Karla', sans-serif;
     }
-    
+
     .lesson_cont input[type=text]:focus {
-        border-bottom: 0px solid #000;
+        font-size       : 12pt;
+        border-bottom   : 0px solid #000;
         background-color: #ECECF5;
-        width: 100%;
+        width           : 100%;
+        font-family     : 'Karla', sans-serif;
     }
-    
+
     .lesson_cont {
-        float: left;
-        width: 90%;
+        float           : left;
+        width           : 90%;
         background-color: #F29BAB;
-        border-radius: 2em;
-        padding: 2%;
-        margin-bottom: 15px;
+        border-radius   : 2em;
+        padding         : 2%;
+        font-family     : 'Josefin Sans', sans-serif;
+        margin-bottom   : 15px;
     }
-    
+
     .lesson_cont .l {
-        float: right;
-        width: 96%;
+        float             : right;
+        width             : 96%;
         /*background-color: #FF506B;*/
-        padding: 2%;
-        display: none;
-        margin: 0px;
+        padding           : 2%;
+        display           : none;
+        margin            : 0px;
     }
-    
+
     .lesson_cont .la {
-        float: right;
-        width: 96%;
+        float             : right;
+        width             : 96%;
         /*background-color: #FF506B;*/
-        padding: 2%;
-        display: block;
-        margin: 0px;
+        padding           : 2%;
+        display           : block;
+        margin            : 0px;
     }
-    
+
     .lesson_cont .lk {
-        float: right;
-        width: 96%;
+        float             : right;
+        width             : 96%;
         /*background-color: #FF506B;*/
-        padding: 2%;
-        display: none;
-        margin: 0px;
+        padding           : 2%;
+        display           : none;
+        margin            : 0px;
     }
-    
+
     .lesson_cont .r {
-        float: left;
-        width: 96%;
+        float           : left;
+        width           : 96%;
         background-color: #F2D0D7;
-        margin: 0px;
-        text-align: center;
-        min-height: 200px;
+        margin          : 0px;
+        text-align      : center;
+        min-height      : 200px;
     }
-    
+
     .lesson_cont .ra {
-        float: left;
-        width: 96%;
-        min-height: 200px;
+        float           : left;
+        width           : 96%;
+        min-height      : 200px;
         background-color: #F2D0D7;
-        margin: 0px;
-        text-align: center;
+        margin          : 0px;
+        text-align      : center;
     }
+
     .lesson_cont .rk {
-        float: left;
-        width: 96%;
+        float           : left;
+        width           : 96%;
         background-color: #F29BAB;
-        margin: 0px;
-        text-align: center;
-        min-height: 200px;
+        margin          : 0px;
+        text-align      : center;
+        min-height      : 200px;
     }
-    
-    
+
+
     /* The container */
-    
+
     .container {
-        display: inline;
-        position: relative;
-        padding: 4%;
-        margin-bottom: 4%;
-        margin-left: 7%;
-        cursor: pointer;
-        font-size: 12px;
-        user-select: none;
-        width: 30%;
+        display         : inline;
+        position        : relative;
+        padding         : 4%;
+        margin-bottom   : 4%;
+        margin-left     : 7%;
+        cursor          : pointer;
+        font-size       : 12pt;
+        user-select     : none;
+        width           : 35%;
         background-color: #F2D0D7;
-        display: block;
-        float: left;
-        border-radius: 1em;
+        display         : block;
+        float           : left;
+        border-radius   : 1em;
     }
-    
-    
+
+
     /* Hide the browser's default radio button */
-    
+
     .container input {
         position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        float: left;
+        opacity : 0;
+        cursor  : pointer;
+        float   : left;
     }
-    
-    
+
+
     /* Create a custom radio button */
-    
+
     .checkmark {
-        position: absolute;
-        top: 35%;
-        left: 78%;
-        height: 15px;
-        width: 15px;
+        position        : absolute;
+        top             : 35%;
+        left            : 82%;
+        height          : 15px;
+        width           : 15px;
         background-color: #F2D0D7;
-        border-radius: 50%;
+        border-radius   : 50%;
     }
-    
+
 
     /* On mouse-over, add a grey background color */
-    
+
     .container:hover input~.checkmark {
         background-color: #F2D0D7;
     }
-    
-    
+
+
     /* When the radio button is checked, add a blue background */
-    
+
     .container input:checked~.checkmark {
         background-color: #1B3BF2;
     }
-    
-    
+
+
     /* Create the indicator (the dot/circle - hidden when not checked) */
-    
+
     .checkmark:after {
-        content: "";
+        content : "";
         position: absolute;
-        display: none;
+        display : none;
     }
-    
-    
+
+
     /* Show the indicator (dot/circle) when checked */
-    
+
     .container input:checked~.checkmark:after {
         display: block;
     }
-    
 
-    
-    .lesson_cont .sms{
-        color: #000;   
+
+
+    .lesson_cont .sms {
+        color: #000;
     }
 }
+
 </style>
