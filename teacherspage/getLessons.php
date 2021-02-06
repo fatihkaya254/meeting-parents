@@ -21,7 +21,9 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
     $date = $tT->getCurrentDate('');
     $bugun = $tT->getCurrentDay('');
     $hours = $tT->getLesssonHours('');
-
+    $kacinciID = 0;
+    $first = 0;
+    $last = 0;
     $exhomework = '';
     $smsText = '';
     global $wpdb;
@@ -31,7 +33,14 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
     $wholeexams = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_virtualweek WHERE teacher_id = '$teacherid';", ARRAY_A);
     foreach ($wholeexams as $we) {
         $getir = new lrGet();
+        $kacinciID++;
 
+        if ($kacinciID == 1) {
+            $first = $we['vw_id'];
+        }
+        if ($kacinciID == 9) {
+            $last = $we['vw_id'];
+        }
         $rI = array();
         $rI['cssClassL'] = 'lesson_cont l';
         $rI['cssClassR'] = 'lesson_cont r';
@@ -205,7 +214,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
                 $content .= '</div>';
 
                 $content .= '<div id="a" class="' . $gRI['cssClassL'] . ' ' . $we['vw_id'] . 'b">';
-                $content .= $getir->beforeSunrise($lessoninfo, $hangisaat, $teacherid, '', $we['vw_id'], site_url());
+                $content .= $getir->beforeSunrise($lessoninfo, $hangisaat, $teacherid, '', $we['vw_id'], site_url(), $bugun);
                 $content .= '<br /><br /><label>İşlenen Konu </label>';
                 $content .= '<input type="text" onfocusout="';
                 for ($sett = 0; $sett < 6; $sett++) {
@@ -232,20 +241,21 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
                     $content .= $getir->homeworkStatusG($radioSetURL, $gRI['cssClassL'], $we['vw_id'], $gRI['homeworkStatus'][$i], '', $gRI, $i); //ödev chechboxları
                 }
                 $content .= '</div>';
-                $content .= '<script>jQuery( document ).ready(function() {
-                    for (let ders = 1; ders < 10; ders++) {
-                        setSms(ders, "");
-                        for (let group = 0; group < 6; group++) {
-                            setSms(ders, group);
 
-                        }
-
-                    }
-                });</script>';
 
             }
         }
     }
+    $content .= '<script>jQuery( document ).ready(function() {
+        for (let ders = '.$first.'; ders < '.$last.'; ders++) {
+            setSms(ders, "");
+            for (let group = 0; group < 6; group++) {
+                setSms(ders, group);
+
+            }
+
+        }
+    });</script>';
     $returning = [];
     $returning['success'] = 1;
     $returning['content'] = $content;

@@ -189,7 +189,7 @@ class lrGet
         //$content .= '<label name="nHG'.$vwid.$i.'" id="nHG'.$vwid.$i.'">'.$gRI['nextHomework'][$i].'</label><br>';
         $content .= '<label class="container">Tam Yaptı';
 
-        if ($homeworkStatus == tam) {
+        if ($homeworkStatus == "tam") {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" checked="checked" name="radiobtn' . $vwid . $i . '" id="tam' . $vwid . $i . '" value="tam">';
         } else {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" name="radiobtn' . $vwid . $i . '" id="tam' . $vwid . $i . '" value="tam">';
@@ -199,7 +199,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Eksik/Özensiz';
 
-        if ($homeworkStatus == eksik) {
+        if ($homeworkStatus == "eksik") {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" checked="checked" id="eksik' . $vwid . $i . '" name="radiobtn' . $vwid . $i . '" value="eksik">';
         } else {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" name="radiobtn' . $vwid . $i . '" id="eksik' . $vwid . $i . '" value="eksik">';
@@ -209,7 +209,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Yapmadı';
 
-        if ($homeworkStatus == yok) {
+        if ($homeworkStatus == "yok") {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" checked="checked" id="yok' . $vwid . $i . '" name="radiobtn' . $vwid . $i . '" value="yok">';
         } else {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" name="radiobtn' . $vwid . $i . '" id="yok' . $vwid . $i . '" value="yok">';
@@ -219,7 +219,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Verilmemişti';
 
-        if ($homeworkStatus == verilmedi) {
+        if ($homeworkStatus == "verilmedi") {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" checked="checked" id="verilmedi' . $vwid . $i . '" name="radiobtn' . $vwid . $i . '" value="verilmedi">';
         } else {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" name="radiobtn' . $vwid . $i . '" id="verilmedi' . $vwid . $i . '" value="verilmedi">';
@@ -229,7 +229,7 @@ class lrGet
         $content .= '</label>';
         $content .= '<label class="container">Katılmadı';
 
-        if ($homeworkStatus == katilmadi) {
+        if ($homeworkStatus == "katilmadi") {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" checked="checked" id="katilmadi' . $vwid . $i . '" name="radiobtn' . $vwid . $i . '" value="katilmadi">';
         } else {
             $content .= '<input type="radio" onclick="radioFunctionG(\'' . $url . '\',\'' . $vwid . '\',\'' . $i . '\')" name="radiobtn' . $vwid . $i . '" id="katilmadi' . $vwid . $i . '" value="katilmadi">';
@@ -241,16 +241,17 @@ class lrGet
 
         return $content;
     }
-	public function beforeSunrise($lessonInfo, $hangisaat, $teacherid, $content, $vwid, $path){
-		global $wpdb;
-		$hangisaat = $hangisaat -1;
-		$ders = $teacherid. ' - '.$hangisaat.'. ' . Saat;
-        $this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_virtualweek WHERE vw_name = '$ders' AND sal = '$lessonInfo'", ARRAY_A);
+    public function beforeSunrise($lessonInfo, $hangisaat, $teacherid, $content, $vwid, $path, $bugun)
+    {
+        global $wpdb;
+        $hangisaat = $hangisaat - 1;
+        $ders = $teacherid . ' - ' . $hangisaat . '. ' . 'Saat';
+        $this->wholerecords = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_virtualweek WHERE vw_name = '$ders' AND $bugun = '$lessonInfo'", ARRAY_A);
         foreach ($this->wholerecords as $tr) {
-			$content .= '<input style="color: #000; background-color: #F29BAB;" type="submit" id="esitle' . $tr['qp_id'] . '" name="esitle' . $tr['qp_id'] . '" value="Bir Önceki Dersin Bilgilerini Getir" onclick="beforeSunrise(\'' . $vwid . '\',\'' . $path . '\')">';
-		}	
-		return $content;
-	}
+            $content .= '<input style="color: #000; background-color: #F29BAB;" type="submit" id="esitle' . $tr['qp_id'] . '" name="esitle' . $tr['qp_id'] . '" value="Bir Önceki Dersin Bilgilerini Getir" onclick="beforeSunrise(\'' . $vwid . '\',\'' . $path . '\')">';
+        }
+        return $content;
+    }
     public function getLessonProcess($date, $day, $hour, $lessonhour, $min, $teacherid, $content, $url, $setQPURL)
     {
         global $wpdb;
@@ -266,8 +267,8 @@ class lrGet
                 $lrid = $we['qpr_id'];
                 $classr = 'lesson_cont ra ';
                 $classl = 'lesson_cont la ';
-				$sass = $we['s_asked'];
-				$tass = $we['t_asked'];
+                $sass = $we['s_asked'];
+                $tass = $we['t_asked'];
 
                 if ($sass != 0 || $tass != 0) {
                     $classr = 'lesson_cont rk ';
@@ -280,10 +281,10 @@ class lrGet
             if ($classr == 'lesson_cont ra ') {
                 $baslat = "display: none;";
                 $kapat = "";
-            }elseif ($classr == 'lesson_cont rk ') {
+            } elseif ($classr == 'lesson_cont rk ') {
                 $baslat = "display: none;";
-				$duzenle = "background-color: #FEC8CF; color: #1B3BF2;";
-			}
+                $duzenle = "background-color: #FEC8CF; color: #1B3BF2;";
+            }
             $expLessonhour = explode(':', $lessonhour);
             $lh = $expLessonhour[0] . ":" . "$min";
             $branchID = $this->getBranchID(trim($tr['qp_branch']));
@@ -307,11 +308,11 @@ class lrGet
 
             $content .= '<div id="a" class="' . $classl . $tr['qp_id'] . 'qpb">';
             $content .= '<label>Öğrenci Kaç Soru Sordu? </label>';
-            $content .= '<input type="text" onfocusout="setQP(\'' . $setQPURL . '\',\'' . $tr['qp_id'] . '\')" id="sque' . $tr['qp_id'] . '" placeholder="Örn. 5" value = "'.$sass.'">';
+            $content .= '<input type="text" onfocusout="setQP(\'' . $setQPURL . '\',\'' . $tr['qp_id'] . '\')" id="sque' . $tr['qp_id'] . '" placeholder="Örn. 5" value = "' . $sass . '">';
             $content .= '</div>';
             $content .= '<div id="a" class="' . $classl . $tr['qp_id'] . 'qpb">';
             $content .= '<label>Öğretmen Kaç Soru Sordu? </label>';
-            $content .= '<input type="text" onfocusout="setQP(\'' . $setQPURL . '\',\'' . $tr['qp_id'] . '\')" id="tque' . $tr['qp_id'] . '" placeholder="Örn. 5" value = "'.$tass.'">';
+            $content .= '<input type="text" onfocusout="setQP(\'' . $setQPURL . '\',\'' . $tr['qp_id'] . '\')" id="tque' . $tr['qp_id'] . '" placeholder="Örn. 5" value = "' . $tass . '">';
             $content .= '</div>';
             $content .= '</div>';
         }

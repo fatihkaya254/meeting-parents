@@ -1,0 +1,24 @@
+<style type="text/css">@charset "UTF-8";
+
+
+.sms-content {
+    background-color: #ffd5eb;
+    padding         : 5px;
+    padding-left    : 15px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.sms-content.set{
+    background-color: #70ebbc;
+}
+.sms-content.ready{
+    background-color: #fdffd5;
+}
+.sms-content.go{
+    background-color: #d1d1d1;
+}
+
+
+
+
+</style>

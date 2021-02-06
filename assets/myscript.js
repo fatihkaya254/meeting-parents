@@ -51,26 +51,6 @@ function posttophp(ddd, sendurl, callback) {
     });
 }
 
-function get_full_sms(data) {
-    console.log('mission also success');
-
-    var jdata = JSON.parse(data);
-    console.log(jdata.success);
-    console.log('test');
-    if (jdata.success == 1) {
-        console.log('mission success');
-        var content = jdata.content;
-        jQuery("#wholesms").html(content);
-        //jQuery("#wholesms").css("background-color","red");
-    }
-}
-
-function getsmsdata(getUrl) {
-    console.log('Selaaam');
-    var fdi = new FormData();
-    fdi.append('start', '1');
-    posttophp(fdi, getUrl, get_full_sms);
-}
 
 function getlessonrecord(getUrl) {
     console.log('Start process for get lesson record');
@@ -753,4 +733,25 @@ function beforeSunrise(vwid, path) {
     }
 
 
+}
+
+function getSms(getUrl, date, day) {
+    console.log("gettin SMS");
+    var fdrntl = new FormData();
+    fdrntl.append('getSMS', '1');
+    fdrntl.append('tarih', date);
+    fdrntl.append('bugun', day);
+    console.log(date);
+    console.log(day);
+
+    posttophp(fdrntl, getUrl, getSmsCallBack);
+}
+
+function getSmsCallBack(data) {
+    console.log("putting sms");
+    var jdata = JSON.parse(data);
+    var content = jdata.content;
+    if (jdata.success == 1) {
+        jQuery("#main-content").html(content);
+    }
 }

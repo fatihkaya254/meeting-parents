@@ -93,6 +93,16 @@ function teachers_page($params = array()) {
 // register shortcode
 add_shortcode('mp-teachers-page', 'teachers_page');
 
+function sms_page($params = array()) {
+	ob_start();
+	include (dirname(__FILE__, 1) . '/templates/sendsms.php');
+	$ob_str=ob_get_contents();
+	ob_end_clean();
+	return $ob_str;
+}
+
+// register shortcode
+add_shortcode('mp-sms-page', 'sms_page');
 
 
 function exam_questions($params = array()) {
