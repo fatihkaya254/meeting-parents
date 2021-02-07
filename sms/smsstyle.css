@@ -18,7 +18,12 @@
     background-color: #d1d1d1;
 }
 
-
+.smstext p{
+    cursor: pointer;
+}
+.smstext p:hover {
+    text-decoration: line-through lightcoral;
+}
 
 
 </style>

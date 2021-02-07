@@ -717,17 +717,17 @@ function beforeSunrise(vwid, path) {
     }
     for (let index = 0; index < 6; index++) {
         radioFunctionG(radioURL, vwid, index);
-        
+
     }
 
-    var homework = jQuery("#lessonStatus" + bwid ).val();
-    jQuery("#lessonStatus" + vwid ).val(homework);
-  
+    var homework = jQuery("#lessonStatus" + bwid).val();
+    jQuery("#lessonStatus" + vwid).val(homework);
+
     for (let index = 0; index < 6; index++) {
         setLessonStatus(setLessonStatusURL, vwid, index);
     }
- 
-    jQuery("#nextHomework" + vwid ).val(jQuery("#nextHomework" + bwid ).val());
+
+    jQuery("#nextHomework" + vwid).val(jQuery("#nextHomework" + bwid).val());
     for (let index = 0; index < 6; index++) {
         setNextHomework(setNextHomeworkURL, vwid, index);
     }
@@ -753,5 +753,45 @@ function getSmsCallBack(data) {
     var content = jdata.content;
     if (jdata.success == 1) {
         jQuery("#main-content").html(content);
+    }
+}
+
+function generateSms(getUrl) {
+    console.log("gettin SMS");
+    var fdrntl = new FormData();
+    fdrntl.append('generate', '1');
+    posttophp(fdrntl, getUrl, generateSmsCallBack);
+}
+
+function generateSmsCallBack(data) {
+    console.log("SMS setted");
+    var jdata = JSON.parse(data);
+    var content = jdata[1].sms;
+    var kontrol = jdata.kontrol;
+    if (jdata.success == 1) {
+        for (let index = 0; index < kontrol; index++) {
+            jQuery("#sms" + jdata[index].id).text(jdata[index].sms);
+        }
+    }
+}
+
+function deleteSms(getUrl, recordID) {
+    if (confirm("Bu mesaj silinecek")) {
+        console.log("gettin SMS");
+        var fdrntl = new FormData();
+        fdrntl.append('delete', '1');
+        fdrntl.append('recordID', recordID);
+        posttophp(fdrntl, getUrl, deleteSmsCallBack);
+    }
+}
+
+function deleteSmsCallBack(data) {
+    console.log("SMS deleted");
+    var jdata = JSON.parse(data);
+    var who = jdata.who;
+    if (jdata.success == 1) {
+        jQuery("#sms" + who).text(' ');
+        jQuery("#" + who).css("background-color", "#ffd5eb");
+
     }
 }
