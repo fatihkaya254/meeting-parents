@@ -11,6 +11,9 @@ $userLogin = $tT->getUserlogin('');
 $userName = $tT->getUsername('');
 $isTeacher = $tT->isThisTeacher($userLogin);
 $id = $tT->getIDByUsername($userLogin, '');
+if ($id != 9 && $id != 15 ) {
+	die;
+}
 $time = $tT->getCurrentTime('');
 $date = $tT->getCurrentDate('');
 $bugun = $tT->getCurrentDay('');

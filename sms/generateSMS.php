@@ -38,9 +38,9 @@ if (isset($_POST['generate']) && $_POST['generate'] == '1') {
             $smsText .= "Öğrenci derse katılmadı. Bir sonraki ödev: " . $nextHomework;
         }
         $smsText .= " İşleyen Zihinler ";
-
-        $number = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_smsnumber WHERE student_id = '$stuid';", ARRAY_A);
-        foreach ($number as $wn) {
+        $number = 'Veli Numarası Bulunamadı';
+        $numbers = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_smsnumber WHERE student_id = '$stuid';", ARRAY_A);
+        foreach ($numbers as $wn) {
             $number = $wn['sms_number'];
             $wpdb->query("INSERT INTO `{$wpdb->prefix}mp_sms` (`sms_id`, `parent_num`, `sms_text`, `is_sent`, `student_id`, `lr_id`, `date_info`) VALUES (NULL, '$number', '$smsText', '0', '$stuid', '$lrid', '$date')");
 

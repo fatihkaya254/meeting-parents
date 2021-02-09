@@ -108,7 +108,8 @@ if (isset($_POST['getSMS']) && $_POST['getSMS'] == "1") {
             $content .= '<div class="smstext"><p onclick="deleteSms(\'' . $deleteURL . '\', \'' . $recordID . '\')" id="sms' . $recordID . '" name="sms' . $recordID . '">' . $smsText . '</p></div>';
         }
     }
-    $content = '<input type="submit" value="SMS\'leri gönder" onclick="sendSms(\'' . $sendURL . '\')"><br /><br />';
+    $content .= '<input type="submit" value="SMS\'leri gönder" onclick="sendSms(\'' . $sendURL . '\')"><br /><br />';
+    $content .= '<ul id="sent"></ul>';
     $return = [];
     $return['success'] = 1;
     $return['content'] = $content;

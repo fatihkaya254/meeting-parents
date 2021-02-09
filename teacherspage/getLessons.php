@@ -103,7 +103,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
                 } elseif ($rI['cssClassR'] == 'lesson_cont rk') {
                     $baslat = "display: none;";
                     $bitir = "display: none; color: ";
-                    $duzenle = "color: #1B3BF2; background-color: #FEC8CF;";
+                  //  $duzenle = "color: #1B3BF2; background-color: #FEC8CF;";
                 }
                 // $processLR .= '<li class="' . $rI['cssClasslist'] . '">' . $hours[$hangisaat] . '</li>';
                 $content .= '<div class="lesson_cont">
@@ -197,7 +197,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
                 } elseif ($gRI['cssClassR'] == 'lesson_cont rk') {
                     $baslat = "display: none;";
                     $bitir = "display: none;";
-                    $duzenle = "color: #1B3BF2; background-color: #FEC8CF;";
+            //        $duzenle = "color: #1B3BF2; background-color: #FEC8CF;";
                 }
                 $content .= '<input style="' . $kapat . '" type="submit" id="kapat' . $we['vw_id'] . '" name="kapat' . $we['vw_id'] . '" value="Düzenlemeyi Bitir" onclick="closeChange(\'' . $we['vw_id'] . '\')">';
                 $content .= '<input style="' . $baslat . '" type="submit" id="baslat' . $we['vw_id'] . '" name="baslat' . $we['vw_id'] . '" value="Başlat" onclick="startLesson(\'' . $url . '\',\'' . $we['vw_id'] . '\')">';

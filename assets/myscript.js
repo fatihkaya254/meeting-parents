@@ -619,8 +619,8 @@ function finishCallBack(data) {
             jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
             jQuery("#baslat" + who).css("display", "none");
             jQuery("#bitir" + who).css("display", "none");
-            jQuery("#duzenle" + who).css("display", "block");
-            jQuery("#duzenle" + who).css("margin", "auto");
+           // jQuery("#duzenle" + who).css("display", "block");
+           // jQuery("#duzenle" + who).css("margin", "auto");
         });
     }
 }
@@ -659,9 +659,9 @@ function closeChange(who) {
             jQuery(".lesson_cont ." + who + "a").animate({ width: "98%" });
         }
         jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
-        jQuery("#duzenle" + who).css("display", "block");
+    //    jQuery("#duzenle" + who).css("display", "block");
         jQuery("#kapat" + who).css("display", "none");
-        jQuery("#duzenle" + who).css("margin", "auto");
+    //    jQuery("#duzenle" + who).css("margin", "auto");
 
     });
 }
@@ -794,4 +794,38 @@ function deleteSmsCallBack(data) {
         jQuery("#" + who).css("background-color", "#ffd5eb");
 
     }
+}
+
+function sendSms(getUrl) {
+    if (confirm("Tüm SMS'ler Gönderilecek")) {
+        console.log("Sending SMS");
+        var fdrntl = new FormData();
+        fdrntl.append('send', '1');
+        posttophp(fdrntl, getUrl, sendSmsCallBack);
+    }
+}
+
+function sendSmsCallBack(data) {
+    console.log("SMS ileti merkezine iletildi");
+    var jdata = JSON.parse(data);
+    var kontrol = jdata.kontrol;
+    var url = jdata.url;
+    if (jdata.success == 1) {
+        for (let index = 0; index < kontrol; index++) {
+            jQuery("#sent").append("<li>"+jdata[index].smsid+"</li>");
+            jQuery("#sent").append("<li>"+jdata[index].number+"</li>");
+            jQuery("#sent").append("<li>"+jdata[index].sms+"</li>");
+            iletiMerkezi(url, jdata[index].sms, jdata[index].number, jdata[index].smsid);
+        }
+    }
+}
+
+function iletiMerkezi(getUrl, mesaj, numara, sms_id) {
+        console.log("gettin SMS");
+        var fdrntl = new FormData();
+        fdrntl.append('iletimerkezi', '1');
+        fdrntl.append('mesaj', mesaj);
+        fdrntl.append('numara', numara);
+        fdrntl.append('sms_id', sms_id);
+        posttophp(fdrntl, getUrl, no_callback);    
 }
