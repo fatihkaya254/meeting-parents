@@ -82,7 +82,9 @@ if (isset($_POST['getSMS']) && $_POST['getSMS'] == "1") {
                     }
                     $content .= $hours[$hangisaat] . ' G ' . $we['name'] . ' ' . $we['surname'] . ' - ' . $studentName;
                     $content .= '</div>';
+					if($class != 'sms-content go'){
                     $content .= '<div class="smstext"><p onclick="deleteSms(\'' . $deleteURL . '\', \'' . $recordID . '\')" id="sms' . $recordID . '" name="sms' . $recordID . '">' . $smsText . '</p></div>';
+					}
                 }
             }
         } else {
@@ -105,8 +107,10 @@ if (isset($_POST['getSMS']) && $_POST['getSMS'] == "1") {
             }
             $content .= $hours[$hangisaat] . ' ' . $we['name'] . ' ' . $we['surname'] . ' - ' . $studentName;
             $content .= '</div>';
+			if($class != 'sms-content go'){
             $content .= '<div class="smstext"><p onclick="deleteSms(\'' . $deleteURL . '\', \'' . $recordID . '\')" id="sms' . $recordID . '" name="sms' . $recordID . '">' . $smsText . '</p></div>';
-        }
+			}
+			}
     }
     $content .= '<input type="submit" value="SMS\'leri gönder" onclick="sendSms(\'' . $sendURL . '\')"><br /><br />';
     $content .= '<ul id="sent"></ul>';
