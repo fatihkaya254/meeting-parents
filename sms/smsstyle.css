@@ -1,29 +1,30 @@
 <style type="text/css">@charset "UTF-8";
-
-
 .sms-content {
     background-color: #ffd5eb;
-    padding         : 5px;
-    padding-left    : 15px;
+    padding: 5px;
+    padding-left: 15px;
     margin: auto;
     margin-bottom: 10px;
 }
-.sms-content.set{
+
+.sms-content .set {
     background-color: #70ebbc;
 }
-.sms-content.ready{
+
+.sms-content .ready {
     background-color: #fdffd5;
 }
-.sms-content.go{
+
+.sms-content .go {
     background-color: #d1d1d1;
 }
 
-.smstext p{
+.smstext p {
     cursor: pointer;
 }
+
 .smstext p:hover {
     text-decoration: line-through lightcoral;
 }
-
 
 </style>
