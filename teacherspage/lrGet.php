@@ -262,7 +262,7 @@ class lrGet
             $classr = 'lesson_cont r ';
             $classl = 'lesson_cont l ';
             $studentID = $tr['student_id'];
-            $this->wholeexams = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_qprecords WHERE student_id = '$studentID' AND teacher_id = '$teacherid' AND hangiders = '$hour' AND date_info = '2021-01-10';", ARRAY_A);
+            $this->wholeexams = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_qprecords WHERE student_id = '$studentID' AND teacher_id = '$teacherid' AND hangiders = '$hour' AND date_info = '$date';", ARRAY_A);
             foreach ($this->wholeexams as $we) {
                 $lrid = $we['qpr_id'];
                 $classr = 'lesson_cont ra ';

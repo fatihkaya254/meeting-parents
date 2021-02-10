@@ -597,12 +597,14 @@ function setSms(who, kontrol) {
 // finish lesson
 
 function finishLesson(getUrl, id, kontrol) {
+    if (confirm("SMS'leri Onayla ve Bitir")) {
     console.log('finishing');
     var fdrntl = new FormData();
     fdrntl.append('fin', '1');
     fdrntl.append('recordID', jQuery("#recordID" + id + kontrol).val());
     fdrntl.append('who', id);
     posttophp(fdrntl, getUrl, finishCallBack);
+    }
 }
 
 function finishCallBack(data) {
