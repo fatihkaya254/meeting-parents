@@ -116,13 +116,25 @@ function exam_questions($params = array()) {
 // register shortcode
 add_shortcode('mp-exam-questions', 'exam_questions');
 
+function trello($params = array()) {
+	ob_start();
+	include (dirname(__FILE__, 1) . '/templates/trello.php');
+	$ob_str=ob_get_contents();
+	ob_end_clean();
+	return $ob_str;
+}
+
+// register shortcode
+add_shortcode('mp-trello', 'trello');
 
 function meet_parents_js(){
 	$jsway = site_url().'/wp-content/plugins/meeting-parents/assets/myscript.js';
 	$cssway = site_url().'/wp-content/plugins/meeting-parents/assets/mystyle.css';
+	$cssway = site_url().'/wp-content/plugins/meeting-parents/assets/ui.js';
 	?>
 	<style src="<?php echo $cssway;?>" type="text/css"></style>
 	<script src="<?php echo 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js';?>"></script> 
+    <script src="<?php echo 'https://code.jquery.com/ui/1.12.1/jquery-ui.js';?>"></script>
 	<script src="<?php echo $jsway;?>"></script> 
 	<?php
 }
