@@ -600,12 +600,12 @@ function setSms(who, kontrol) {
 
 function finishLesson(getUrl, id, kontrol) {
     if (confirm("SMS'leri Onayla ve Bitir")) {
-    console.log('finishing');
-    var fdrntl = new FormData();
-    fdrntl.append('fin', '1');
-    fdrntl.append('recordID', jQuery("#recordID" + id + kontrol).val());
-    fdrntl.append('who', id);
-    posttophp(fdrntl, getUrl, finishCallBack);
+        console.log('finishing');
+        var fdrntl = new FormData();
+        fdrntl.append('fin', '1');
+        fdrntl.append('recordID', jQuery("#recordID" + id + kontrol).val());
+        fdrntl.append('who', id);
+        posttophp(fdrntl, getUrl, finishCallBack);
     }
 }
 
@@ -623,8 +623,8 @@ function finishCallBack(data) {
             jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
             jQuery("#baslat" + who).css("display", "none");
             jQuery("#bitir" + who).css("display", "none");
-           // jQuery("#duzenle" + who).css("display", "block");
-           // jQuery("#duzenle" + who).css("margin", "auto");
+            // jQuery("#duzenle" + who).css("display", "block");
+            // jQuery("#duzenle" + who).css("margin", "auto");
         });
     }
 }
@@ -663,9 +663,9 @@ function closeChange(who) {
             jQuery(".lesson_cont ." + who + "a").animate({ width: "98%" });
         }
         jQuery(".lesson_cont ." + who + "a").css("background-color", "#F29BAB");
-    //    jQuery("#duzenle" + who).css("display", "block");
+        //    jQuery("#duzenle" + who).css("display", "block");
         jQuery("#kapat" + who).css("display", "none");
-    //    jQuery("#duzenle" + who).css("margin", "auto");
+        //    jQuery("#duzenle" + who).css("margin", "auto");
 
     });
 }
@@ -816,20 +816,67 @@ function sendSmsCallBack(data) {
     var url = jdata.url;
     if (jdata.success == 1) {
         for (let index = 0; index < kontrol; index++) {
-            jQuery("#sent").append("<li>"+jdata[index].smsid+"</li>");
-            jQuery("#sent").append("<li>"+jdata[index].number+"</li>");
-            jQuery("#sent").append("<li>"+jdata[index].sms+"</li>");
+            jQuery("#sent").append("<li>" + jdata[index].smsid + "</li>");
+            jQuery("#sent").append("<li>" + jdata[index].number + "</li>");
+            jQuery("#sent").append("<li>" + jdata[index].sms + "</li>");
             iletiMerkezi(url, jdata[index].sms, jdata[index].number, jdata[index].smsid);
         }
     }
 }
 
 function iletiMerkezi(getUrl, mesaj, numara, sms_id) {
-        console.log("gettin SMS");
-        var fdrntl = new FormData();
-        fdrntl.append('iletimerkezi', '1');
-        fdrntl.append('mesaj', mesaj);
-        fdrntl.append('numara', numara);
-        fdrntl.append('sms_id', sms_id);
-        posttophp(fdrntl, getUrl, no_callback);    
+    console.log("gettin SMS");
+    var fdrntl = new FormData();
+    fdrntl.append('iletimerkezi', '1');
+    fdrntl.append('mesaj', mesaj);
+    fdrntl.append('numara', numara);
+    fdrntl.append('sms_id', sms_id);
+    posttophp(fdrntl, getUrl, no_callback);
+}
+
+
+function changeClass(getUrl, id, day, type, classroom) {
+    console.log("changing class");
+    var fdrntl = new FormData();
+    fdrntl.append('change', '1');
+    fdrntl.append('id', id);
+    fdrntl.append('day', day);
+    fdrntl.append('type', type);
+    fdrntl.append('classroom', classroom);
+    posttophp(fdrntl, getUrl, changeClassCallBack);
+}
+
+function changeClassCallBack(data) {
+    console.log("changed class");
+    var jdata = JSON.parse(data);
+    var kontrol = jdata.kontrol;
+    var id = jdata.id;
+    var day = jdata.day;
+    var classroom = jdata.classroom;
+    if (jdata.success == 1) {
+            jQuery("#class"+id+day).html(classroom);        
+    }
+}
+
+function erasmus(buyer, good, hangiders) {
+    //console.log("Student Exchange Start");
+    var fdrntl = new FormData();
+    var getUrl = jQuery("#erasmusUrl").val();
+    fdrntl.append('exchange', '1');
+    fdrntl.append('buyer', buyer);
+    fdrntl.append('good', good);
+    fdrntl.append('hangisaat', hangiders);
+    posttophp(fdrntl, getUrl, erasmusCallBack);
+}
+
+function erasmusCallBack(data) {
+    console.log("Student Exchange Almost Done");
+    var jdata = JSON.parse(data);
+    var id = jdata.id;
+    var buyer = jdata.buyer;
+    var good = jdata.good;
+    if (jdata.success == 1) {
+           // console.log("buyer: " + buyer);       
+          //  console.log("good: " + good);       
+    }
 }
