@@ -262,6 +262,7 @@ class lrGet
             $classr = 'lesson_cont r ';
             $classl = 'lesson_cont l ';
             $studentID = $tr['student_id'];
+            $lessonRoom = $tr['qp_class'];
             $this->wholeexams = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}mp_qprecords WHERE student_id = '$studentID' AND teacher_id = '$teacherid' AND hangiders = '$hour' AND date_info = '$date';", ARRAY_A);
             foreach ($this->wholeexams as $we) {
                 $lrid = $we['qpr_id'];
@@ -293,7 +294,7 @@ class lrGet
             $content .= '<div class="lesson_cont">';
             $content .= '<div class="' . $classr . $tr['qp_id'] . 'qpa">';
             $content .= '<h1 id="qphour' . $tr['qp_id'] . '">' . $lh . '</h1>';
-            $content .= '<h2 id="qpname' . $tr['qp_id'] . '">' . $name . '</h2>';
+            $content .= '<h2 id="qpname' . $tr['qp_id'] . '">' . $name . ' ' . $lessonRoom.'</h2>';
             $content .= '<p>Soru Çözümü</p>';
             $content .= '<input style="' . $duzenle . '" type="submit" id="qpduzenle' . $tr['qp_id'] . '" name="qpduzenle' . $tr['qp_id'] . '" value="Düzenle" onclick="changeQP(\'' . $tr['qp_id'] . '\')">';
             $content .= '<input style="' . $kapat . '" type="submit" id="qpkapat' . $tr['qp_id'] . '" name="qpkapat' . $tr['qp_id'] . '" value="Düzenlemeyi Bitir" onclick="closeQP(\'' . $tr['qp_id'] . '\')">';

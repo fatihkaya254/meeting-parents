@@ -301,11 +301,9 @@ function getLessonsCallback(data) {
     console.log(jdata.success);
     console.log('test');
     var content = jdata.content;
-    var processLR = jdata.processLR;
 
     if (jdata.success == 1) {
         jQuery("#main-content").html(content);
-        jQuery("#progressbar").append(processLR);
     }
 }
 
@@ -835,7 +833,7 @@ function iletiMerkezi(getUrl, mesaj, numara, sms_id) {
 }
 
 
-function changeClass(getUrl, id, day, type, classroom) {
+function changeClass(id, day, type, classroom) {
     console.log("changing class");
     var fdrntl = new FormData();
     fdrntl.append('change', '1');
@@ -843,6 +841,7 @@ function changeClass(getUrl, id, day, type, classroom) {
     fdrntl.append('day', day);
     fdrntl.append('type', type);
     fdrntl.append('classroom', classroom);
+    var getUrl = jQuery("#changeClassUrl").val();
     posttophp(fdrntl, getUrl, changeClassCallBack);
 }
 
@@ -854,11 +853,11 @@ function changeClassCallBack(data) {
     var day = jdata.day;
     var classroom = jdata.classroom;
     if (jdata.success == 1) {
-            jQuery("#class"+id+day).html(classroom);        
+        jQuery("#class" + id + day).html(classroom);
     }
 }
 
-function erasmus(buyer, good, hangiders) {
+function erasmus(buyer, good, hangiders, classroom) {
     //console.log("Student Exchange Start");
     var fdrntl = new FormData();
     var getUrl = jQuery("#erasmusUrl").val();
@@ -866,17 +865,192 @@ function erasmus(buyer, good, hangiders) {
     fdrntl.append('buyer', buyer);
     fdrntl.append('good', good);
     fdrntl.append('hangisaat', hangiders);
+    fdrntl.append('classroom', classroom);
+    console.log(classroom);
     posttophp(fdrntl, getUrl, erasmusCallBack);
 }
-
 function erasmusCallBack(data) {
     console.log("Student Exchange Almost Done");
     var jdata = JSON.parse(data);
-    var id = jdata.id;
-    var buyer = jdata.buyer;
-    var good = jdata.good;
+    var vwid = jdata.vwid;
+    var teacher = jdata.teacher.trim();
+    var day = jdata.day;
+    var type = jdata.shop;
+    var newClassRoom = jdata.newClass;
+    var hour = jdata.hour;
+    var cHoru = parseInt(hour);
+    var realHour = hour.charAt(0);
+    var student = jdata.student;
     if (jdata.success == 1) {
-           // console.log("buyer: " + buyer);       
-          //  console.log("good: " + good);       
+        console.log("vwid: " + vwid);
+        console.log("teacher: " + teacher);
+        console.log("day: " + day);
+        console.log("hour: " + hour);
+        console.log("student: " + student);
+        var wohinGehtEs = "vw" + teacher + day + hour;
+        var woherKommtDas = jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first input:first').attr('id');
+        if (jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first input:first').val() == student) {
+            let lastChar = woherKommtDas.substring(woherKommtDas.length - 1);
+            if (lastChar == 1 && cHoru > 10) {
+                var wKDT2 = woherKommtDas.substring(0, woherKommtDas.length - 1) + "2";
+                console.log(wKDT2 + " -> " + woherKommtDas);
+                jQuery('#' + wKDT2).attr('id', woherKommtDas);
+            }
+            jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first input:first').attr('id', wohinGehtEs);
+            console.log("bu ilk saat");
+            if (type == "lr") {
+                jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first').find('.job-date').text(newClassRoom);
+                let newClass = "job-block " + day + hour;
+                jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first div:first').attr('class', newClass);
+            } else if (type == "qp") {
+                let newClass = "job-block-qp " + day + hour;
+                jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first div:first').attr('class', newClass);
+            }
+        }
+        else if (jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first input:first').val() != student) {
+            console.log("eşit olmayan: " + student);
+            woherKommtDas = jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:nth-child(2) input:first').attr('id');
+            let lastChar = woherKommtDas.substring(woherKommtDas.length - 1);
+            if (lastChar == 1 && cHoru > 10) {
+                var wKDT2 = woherKommtDas.substring(0, woherKommtDas.length - 1) + "2";
+                jQuery('#' + wKDT2).attr('id', woherKommtDas);
+            }
+            jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:nth-child(2) input:first').attr('id', wohinGehtEs);
+            console.log("bu ikinci saat");
+            if (type == "lr") {
+                jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first').find('.job-date').text(newClassRoom);
+                let newClass = "job-block " + day + hour;
+                jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:first div:first').attr('class', newClass);
+            } else if (type == "qp") {
+                let newClass = "job-block-qp " + day + hour;
+                jQuery('#' + teacher + '-' + day + '-' + vwid + '-' + realHour + ' li:nth-child(2) div:first').attr('class', newClass);
+            }
+        }
+
+        console.log("Geldiği Yer: " + woherKommtDas);
+        console.log("Gittiği Yer: " + wohinGehtEs);
+    }
+}
+
+function goHand(whatCanIDo) {
+    console.log("handing: " + whatCanIDo);
+    var fdrntl = new FormData();
+    var getUrl = jQuery("#handlingUrl").val();
+    fdrntl.append('handling', '1');
+    fdrntl.append('knowledge', jQuery('#popValue').val());
+    fdrntl.append('where', jQuery('#popId').val());
+    fdrntl.append('whatCanIDo', whatCanIDo);
+    fdrntl.append('day', jQuery('#popDay').val());
+    fdrntl.append('popHour', jQuery('#popthisHour').val());
+    var li = jQuery('#popLi').val();
+    var teacher = jQuery('#' + li).attr('name');
+    fdrntl.append('teacher', teacher);
+    console.log(teacher);
+    var branch = jQuery('#popBranch').val()
+    var braid = 0;
+    fdrntl.append('popNew', jQuery('#popNew').val());
+    if (jQuery('input[name ="popBranchName"]').css('border') == "2px solid rgb(52, 199, 89)") {
+        console.log('had brans');
+        branch = jQuery('input[name ="popBranchName"]').val()
+        braid = jQuery('#changeBranch').val();
+    }
+    fdrntl.append('changeBranchId', braid);
+    fdrntl.append('popBranch', branch);
+    if (jQuery('input[name ="popGroupName"]').css('border') == "2px solid rgb(52, 199, 89)") {
+        console.log('this group');
+        fdrntl.append('name', jQuery('input[name ="popGroupName"]').val());
+        posttophp(fdrntl, getUrl, goHandCallBack);
+    } else if (jQuery('input[name ="popStudentName"]').css('border') == "2px solid rgb(52, 199, 89)") {
+        console.log('this notgroup');
+        fdrntl.append('name', jQuery('input[name ="popStudentName"]').val());
+        posttophp(fdrntl, getUrl, goHandCallBack);
+    }
+    if (whatCanIDo == "delete") {
+        posttophp(fdrntl, getUrl, goHandCallBack);
+    }
+
+
+}
+
+function goHandCallBack(data) {
+    var jdata = JSON.parse(data);
+    var shop = jdata.shop;
+    var name = jdata.name;
+    var gID = jdata.gID;
+    var branch = jdata.branch;
+    var whatCanIDo = jdata.whatCanIDo;
+    var buyer = jdata.buyer;
+    console.log("buyer: " + buyer);
+    console.log("id: " +gID);
+    var changeBranchId = jdata.changeBranchId;
+    var neekle = jdata.neekle;
+    console.log(neekle);
+    console.log('geri');
+    if (gID == "G") {
+        var vwval = name;
+    } else {
+        var vwval = gID;
+    }
+    if (jdata.success == 1) {
+        var li = jQuery('#popLi').val();
+        var vwhour = jQuery('#popHour').val();
+        var ul = jQuery('#popUl').val();
+        var day = jQuery('#popDay').val();
+        var hour = jQuery('#popthisHour').val();
+        if (whatCanIDo == "delete") {
+            jQuery('#' + li).remove();
+        } else if (whatCanIDo == "change") {
+            console.log('i can change');
+            if (shop == "lr") {
+                console.log('to lr');
+                var valval = "lr| " + branch + " " + gID + " " + name;
+                jQuery('#' + li).find('input[name ="virtualweek"]').val(vwval);
+                jQuery('#' + li).find('input[name ="valueLesson"]').val(valval);
+                jQuery('#' + li).find('.job-name').text(name);
+                jQuery('#' + li).find('.user-email').text(branch);
+                jQuery('#' + li).find('.edit-job-icon').attr("onclick", "openPop('" + branch + "','" + ul + "','" + li + "','" + gID + "','" + name + "','" + valval + "','" + day + "','" + hour + "','" + buyer + "','" + vwhour + "')");
+            } else if (shop == "qp") {
+                console.log('to qp');
+                jQuery('#' + li).find('input[name ="virtualweek"]').val(vwval);
+                jQuery('#' + li).find('input[name ="valueLesson"]').val("qp| " + gID);
+                jQuery('#' + li).find('.job-name').text(name);
+                jQuery('#' + li).find('.edit-job-icon').attr("onclick", "openPop('" + branch + "','" + ul + "','" + li + "','" + gID + "','" + name + "','" + valval + "','" + day + "','" + hour + "','" + buyer + "','" + vwhour + "')");
+            }
+        } else if (whatCanIDo == "lr") {
+            if (jQuery("#" + ul + " li:first").attr('id') == li) {
+                console.log('yes');
+                jQuery("#" + ul + " li:nth-child(2)").remove();
+            } else {
+                console.log('no');
+                jQuery("#" + ul + " li:first").remove();
+            }
+            jQuery('#' + li).attr('class', 'less ui-sortable-handle');
+            jQuery('#' + li + " div:first").attr('class', 'job-block ' + day + hour);
+            jQuery('#' + li).find('input[name ="virtualweek"]').val(vwval);
+            jQuery('#' + li).find('input[name ="valueLesson"]').val("qp| " + gID);
+            jQuery('#' + li).find('.job-name-block-qp').attr('class', 'job-name-block');
+            jQuery('#' + li).find('.job-info-block-qp').attr('class', 'job-info-block');
+            jQuery('#' + li).find('.job-name').text(name);
+            jQuery('#' + li).find('.user-email').text(branch);
+            jQuery('#' + li).find('.edit-job-icon').attr("onclick", "openPop('" + branch + "','" + ul + "','" + li + "','" + gID + "','" + name + "','" + valval + "','" + day + "','" + hour + "','" + buyer + "','" + vwhour + "')");
+            jQuery('#' + li).find('.job-date').attr("onclick", "openClass('" + buyer + "','" + day + "','l')");
+            jQuery('#' + li).find('.job-date').attr("id", "class" + buyer + day);
+        } else if (whatCanIDo == "qp-1") {
+            jQuery('#' + li).find('input[name ="virtualweek"]').val(vwval);
+            jQuery('#' + li).find('input[name ="valueLesson"]').val("qp| " + gID);
+            jQuery('#' + li).find('.job-name').text(name);
+            jQuery('#' + li).find('.edit-job-icon').attr("onclick", "openPop('" + branch + "','" + ul + "','" + li + "','" + gID + "','" + name + "','" + valval + "','" + day + "','" + hour + "','" + buyer + "','" + vwhour + "')");
+            jQuery('#' + li).find('.job-date').attr("onclick", "openClass('" + buyer + "','" + day + "','q')");
+            jQuery('#' + li).find('.job-date').attr("id", "class" + buyer + day);
+        } else if (whatCanIDo == "qp-2") {
+            jQuery('#' + li).find('input[name ="virtualweek"]').val(vwval);
+            jQuery('#' + li).find('input[name ="valueLesson"]').val("qp| " + gID);
+            jQuery('#' + li).find('.job-name').text(name);
+            jQuery('#' + li).find('.edit-job-icon').attr("onclick", "openPop('" + branch + "','" + ul + "','" + li + "','" + gID + "','" + name + "','" + valval + "','" + day + "','" + hour + "','" + buyer + "','" + vwhour + "')");
+            jQuery('#' + li).find('.job-date').attr("onclick", "openClass('" + buyer + "','" + day + "','q')");
+            jQuery('#' + li).find('.job-date').attr("id", "class" + buyer + day);
+        }
+        jQuery("#body").css("filter", "none");
+        jQuery('#pop-up').fadeOut();
     }
 }

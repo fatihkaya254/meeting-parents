@@ -81,6 +81,28 @@ function student_answers($params = array()) {
 // register shortcode
 add_shortcode('mp-student-answers', 'student_answers');
 
+function programmes($params = array()) {
+	ob_start();
+	include (dirname(__FILE__, 1) . '/templates/program.php');
+	$ob_str=ob_get_contents();
+	ob_end_clean();
+	return $ob_str;
+}
+
+// register shortcode
+add_shortcode('mp-program', 'programmes');
+
+
+function classRoom($params = array()) {
+	ob_start();
+	include (dirname(__FILE__, 1) . '/templates/classRoom.php');
+	$ob_str=ob_get_contents();
+	ob_end_clean();
+	return $ob_str;
+}
+
+// register shortcode
+add_shortcode('mp-classRoom', 'classRoom');
 
 function teachers_page($params = array()) {
 	ob_start();

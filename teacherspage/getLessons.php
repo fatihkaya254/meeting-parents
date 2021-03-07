@@ -68,6 +68,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
         $hangidersar = explode(".", $hangiders);
         $hangisaat = $hangidersar[0];
         $lessoninfo = $we[$bugun];
+        $lessonRoom = $we[$bugun.'_c'];
         $lessonExp = explode(' ', $lessoninfo);
         $lessonBranch = $lessonExp[1];
         $url = $startLessonURL;
@@ -110,7 +111,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
 
 					<div class="' . $rI['cssClassR'] . ' ' . $we['vw_id'] . 'a">
 					<h1 id="hour' . $we['vw_id'] . '">' . $hours[$hangisaat] . '</h1>
-					<h2 id="name' . $we['vw_id'] . '">' . $studentName . '</h2>
+					<h2 id="name' . $we['vw_id'] . '">' . $studentName . ' '. $lessonRoom .'</h2>
 					<p>Bir Önceki Ödev: ' . $exhomework . '</p>
 					<p class="sms" id="sms' . $we['vw_id'] . '"></p>
                     <input style="' . $kapat . '" type="submit" id="kapat' . $we['vw_id'] . '" name="kapat' . $we['vw_id'] . '" value="Düzenlemeyi Bitir" onclick="closeChange(\'' . $we['vw_id'] . '\')">
@@ -171,7 +172,7 @@ if (isset($_POST['getLessons']) && $_POST['getLessons'] == '1') {
                 $content .= '<div class="lesson_cont">';
                 $content .= '<div class="' . $gRI['cssClassR'] . ' ' . $we['vw_id'] . 'a">';
                 $content .= '<h1 id="hour' . $we['vw_id'] . '">' . $hours[$hangisaat] . '</h1>';
-                $content .= '<h2>' . $studentName . '</h2>';
+                $content .= '<h2>' . $studentName . ' '. $lessonRoom. '</h2>';
                 $content .= '<p>Bir Önceki Ödev: ' . $exhomework . '</p>';
                 $content .= '<input type="hidden" id="branch' . $we['vw_id'] . '" name="branch' . $we['vw_id'] . '" value="' . $branchID . '">';
                 $content .= '<input type="hidden" id="stuid' . $we['vw_id'] . '" name="stuid' . $we['vw_id'] . '" value="' . $studentID . '">';
