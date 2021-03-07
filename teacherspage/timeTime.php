@@ -25,6 +25,14 @@ class timeTime
             return false;
         }
     }
+    function isThisStudent($userlogin){
+        $dizi = explode ("_",$userlogin);
+    	if ($dizi[0] == "S") {
+            return true;
+        }else{
+            return false;
+        }
+    }
     function getIDByUsername($username, $id){
         $dizi = explode ("_",$username);
         $id = $dizi[1];
